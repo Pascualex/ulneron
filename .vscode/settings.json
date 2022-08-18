@@ -1,0 +1,9 @@
+{
+    "files.exclude": {
+        "**/Cargo.lock": true,
+        "**/target": true,
+    },
+    "cSpell.words": [
+        "Timestep"
+    ],
+}
