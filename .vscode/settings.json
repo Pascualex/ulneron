@@ -4,6 +4,9 @@
         "**/target": true,
     },
     "cSpell.words": [
+        "bincode",
+        "nonblocking",
+        "recv",
         "Timestep"
     ],
 }

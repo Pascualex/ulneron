@@ -20,6 +20,5 @@ pub fn movement(
         movement_writer.send(MovementEvent {
             value: position.value,
         });
-        println!("{}", position.value);
     }
 }

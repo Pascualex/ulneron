@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{events::downstream::MovementEvent, client::components::Player};
+use crate::{client::components::Player, events::downstream::MovementEvent};
 
 pub fn movement(
     mut query: Query<&mut Transform, With<Player>>,

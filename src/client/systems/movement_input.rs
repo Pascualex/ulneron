@@ -18,5 +18,7 @@ pub fn movement_input(keyboard_input: Res<Input<KeyCode>>, mut writer: EventWrit
         dir.x -= 1.0;
     }
 
-    writer.send(InputEvent { value: dir });
+    if dir != Vec2::ZERO {
+        writer.send(InputEvent { value: dir });
+    }
 }

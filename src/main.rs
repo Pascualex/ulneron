@@ -1,6 +1,8 @@
 mod client;
+mod client_endpoint;
 mod events;
 mod server;
+mod server_endpoint;
 
 use bevy::{prelude::*, window::close_on_esc};
 
