@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
-use crate::game::components::*;
+use crate::client::components::Player;
 
-pub fn setup_system(
+pub fn setup(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
