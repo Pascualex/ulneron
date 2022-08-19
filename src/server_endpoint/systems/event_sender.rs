@@ -2,11 +2,15 @@ use std::net::UdpSocket;
 
 use bevy::prelude::*;
 
-use crate::events::downstream::MovementEvent;
+use crate::events::downstream::*;
 
 pub fn event_sender(mut movement_reader: ResMut<Events<MovementEvent>>, socket: Res<UdpSocket>) {
-    for movement in movement_reader.drain() {
-        let bytes = bincode::serialize(&movement).unwrap();
+    let mut events = Vec::new();
+
+    events.extend(movement_reader.drain().map(DownstreamEvent::Movement));
+
+    if !events.is_empty() {
+        let bytes = bincode::serialize(&events).unwrap();
         socket.send(&bytes).unwrap();
     }
 }
