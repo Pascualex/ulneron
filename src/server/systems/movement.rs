@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::server::{components::*, plugin::TIME_STEP};
+use crate::{server::components::*, TIME_STEP};
 
 pub fn movement(mut query: Query<(&mut Position, &Velocity)>) {
     for (mut position, velocity) in query.iter_mut() {

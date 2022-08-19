@@ -9,12 +9,12 @@ use crate::{
 };
 
 pub fn join(
-    mut join_reader: ResMut<Events<JoinEvent>>,
+    mut join_reader: EventReader<JoinEvent>,
     mut entities_ids: ResMut<EntitiesIds>,
     mut commands: Commands,
     mut spawn_writer: EventWriter<SpawnEvent>,
 ) {
-    for join in join_reader.drain() {
+    for join in join_reader.iter() {
         if entities_ids.map.contains_key(&join.id) {
             continue;
         }

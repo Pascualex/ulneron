@@ -6,11 +6,11 @@ use crate::{
 };
 
 pub fn movement_sync(
-    mut movement_reader: ResMut<Events<MovementEvent>>,
+    mut movement_reader: EventReader<MovementEvent>,
     entities_ids: Res<EntitiesIds>,
     mut query: Query<(&mut Transform, &mut Velocity)>,
 ) {
-    for movement in movement_reader.drain() {
+    for movement in movement_reader.iter() {
         let entity = match entities_ids.map.get(&movement.id) {
             Some(entity) => *entity,
             None => continue,

@@ -6,13 +6,13 @@ use crate::{
 };
 
 pub fn spawn_sync(
-    mut spawn_reader: ResMut<Events<SpawnEvent>>,
+    mut spawn_reader: EventReader<SpawnEvent>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut entities_ids: ResMut<EntitiesIds>,
 ) {
-    for spawn in spawn_reader.drain() {
+    for spawn in spawn_reader.iter() {
         if entities_ids.map.contains_key(&spawn.id) {
             continue;
         }

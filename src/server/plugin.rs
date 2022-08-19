@@ -1,10 +1,11 @@
 use bevy::{prelude::*, time::FixedTimestep};
 
-use crate::server::{setup, systems::*};
+use crate::{
+    server::{setup, systems::*},
+    TIME_STEP,
+};
 
 use super::resources::EntitiesIds;
-
-pub const TIME_STEP: f64 = 1.0 / 60.0;
 
 #[derive(Default)]
 pub struct ServerPlugin;

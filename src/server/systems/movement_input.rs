@@ -6,11 +6,11 @@ use crate::{
 };
 
 pub fn movement_input(
-    mut input_reader: ResMut<Events<InputEvent>>,
+    mut input_reader: EventReader<InputEvent>,
     entities_ids: Res<EntitiesIds>,
     mut query: Query<&mut Velocity, With<Player>>,
 ) {
-    for input in input_reader.drain() {
+    for input in input_reader.iter() {
         let entity = match entities_ids.map.get(&input.id) {
             Some(entity) => *entity,
             None => continue,
