@@ -1,11 +1,9 @@
 use bevy::{prelude::*, time::FixedTimestep};
 
 use crate::{
-    server::{setup, systems::*},
+    server::{resources::*, setup, systems::*},
     TIME_STEP,
 };
-
-use super::resources::EntitiesIds;
 
 #[derive(Default)]
 pub struct ServerPlugin;

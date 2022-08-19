@@ -2,12 +2,13 @@ use std::net::UdpSocket;
 
 use bevy::prelude::*;
 
-use crate::events::downstream::*;
+use crate::{events::downstream::*, server_endpoint::resources::Clients};
 
 pub fn event_sender(
     mut movement_reader: EventReader<MovementEvent>,
     mut spawn_reader: EventReader<SpawnEvent>,
     socket: Res<UdpSocket>,
+    clients: Res<Clients>,
 ) {
     let mut events = Vec::new();
 
@@ -24,6 +25,8 @@ pub fn event_sender(
 
     if !events.is_empty() {
         let bytes = bincode::serialize(&events).unwrap();
-        socket.send(&bytes).unwrap();
+        for client in clients.addresses.iter() {
+            socket.send_to(&bytes, client).unwrap();
+        }
     }
 }

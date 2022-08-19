@@ -5,6 +5,7 @@
     },
     "cSpell.words": [
         "bincode",
+        "fastrand",
         "nonblocking",
         "recv",
         "Timestep",
