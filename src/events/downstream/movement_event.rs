@@ -3,5 +3,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct MovementEvent {
-    pub value: Vec2,
+    pub position: Vec2,
+    pub velocity: Vec2,
 }

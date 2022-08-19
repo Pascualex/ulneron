@@ -1,24 +1,29 @@
 use bevy::prelude::*;
 
-use crate::events::upstream::InputEvent;
+use crate::{client::resources::InputState, events::upstream::InputEvent};
 
-pub fn movement_input(keyboard_input: Res<Input<KeyCode>>, mut writer: EventWriter<InputEvent>) {
-    let mut dir = Vec2::ZERO;
+pub fn movement_input(
+    keyboard_input: Res<Input<KeyCode>>,
+    mut input_state: ResMut<InputState>,
+    mut writer: EventWriter<InputEvent>,
+) {
+    let mut direction = Vec2::ZERO;
 
     if keyboard_input.pressed(KeyCode::Up) {
-        dir.y += 1.0;
+        direction.y += 1.0;
     }
     if keyboard_input.pressed(KeyCode::Right) {
-        dir.x += 1.0;
+        direction.x += 1.0;
     }
     if keyboard_input.pressed(KeyCode::Down) {
-        dir.y -= 1.0;
+        direction.y -= 1.0;
     }
     if keyboard_input.pressed(KeyCode::Left) {
-        dir.x -= 1.0;
+        direction.x -= 1.0;
     }
 
-    if dir != Vec2::ZERO {
-        writer.send(InputEvent { value: dir });
+    if direction != input_state.previous_direction {
+        input_state.previous_direction = direction;
+        writer.send(InputEvent { value: direction });
     }
 }
