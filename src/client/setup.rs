@@ -1,25 +1,9 @@
 use bevy::prelude::*;
+use uuid::Uuid;
 
-use crate::client::components::*;
+use crate::events::upstream::JoinEvent;
 
-pub fn setup(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-) {
-    commands
-        .spawn_bundle(MaterialMeshBundle {
-            mesh: meshes.add(Mesh::from(shape::Capsule {
-                radius: 0.25,
-                depth: 0.5,
-                ..default()
-            })),
-            material: materials.add(Color::WHITE.into()),
-            transform: Transform::from_xyz(0.0, 0.5, 0.0),
-            ..default()
-        })
-        .insert(Velocity::from_xy(0.0, 0.0))
-        .insert(Player);
+pub fn setup(mut commands: Commands, id: Res<Uuid>, mut join_writer: EventWriter<JoinEvent>) {
     commands.spawn_bundle(Camera3dBundle {
         transform: Transform::from_xyz(-5.0, 15.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
@@ -42,4 +26,6 @@ pub fn setup(
         },
         ..default()
     });
+
+    join_writer.send(JoinEvent::new(*id));
 }

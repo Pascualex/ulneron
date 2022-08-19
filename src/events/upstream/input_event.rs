@@ -1,7 +1,15 @@
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize)]
 pub struct InputEvent {
-    pub value: Vec2,
+    pub id: Uuid,
+    pub direction: Vec2,
+}
+
+impl InputEvent {
+    pub fn new(id: Uuid, direction: Vec2) -> Self {
+        Self { id, direction }
+    }
 }

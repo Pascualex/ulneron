@@ -12,6 +12,7 @@ impl Plugin for EventsPlugin {
             .init_resource::<Events<InputEvent>>()
             .init_resource::<Events<JoinEvent>>()
             // downstream events
-            .init_resource::<Events<MovementEvent>>();
+            .init_resource::<Events<MovementEvent>>()
+            .init_resource::<Events<SpawnEvent>>();
     }
 }
