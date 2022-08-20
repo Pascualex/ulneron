@@ -9,7 +9,7 @@ pub struct ServerEndpointPlugin;
 
 impl Plugin for ServerEndpointPlugin {
     fn build(&self, app: &mut App) {
-        let socket = UdpSocket::bind("127.0.0.1:34254").unwrap();
+        let socket = UdpSocket::bind("0.0.0.0:34243").unwrap();
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
             .insert_resource(Clients::new())
