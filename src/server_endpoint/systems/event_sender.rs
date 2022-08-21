@@ -8,7 +8,7 @@ pub fn event_sender(
     mut movement_reader: EventReader<MovementEvent>,
     mut spawn_reader: EventReader<SpawnEvent>,
     socket: Res<UdpSocket>,
-    clients: Res<Clients>,
+    mut clients: ResMut<Clients>,
 ) {
     let mut events = Vec::new();
 
@@ -22,6 +22,12 @@ pub fn event_sender(
             .iter()
             .map(|e| DownstreamEvent::Spawn(e.clone())),
     );
+
+    for event in events.iter() {
+        if let DownstreamEvent::Spawn(e) = event {
+            clients.spawns.push(e.clone());
+        }
+    }
 
     if !events.is_empty() {
         let bytes = bincode::serialize(&events).unwrap();
