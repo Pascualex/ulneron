@@ -1,13 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{protocol::events::DownstreamEvent, server::resources::LastInput};
+use crate::{protocol::events::DownstreamEvent, server::resources::Buffer};
 
-pub fn tick(
-    mut last_input: ResMut<LastInput>,
-    mut downstream_writer: EventWriter<DownstreamEvent>,
-) {
-    downstream_writer.send(DownstreamEvent {
-        direction: last_input.direction,
-    });
-    last_input.direction = Vec2::ZERO;
+pub fn tick(mut buffer: ResMut<Buffer>, mut downstream_writer: EventWriter<DownstreamEvent>) {
+    downstream_writer.send(DownstreamEvent::new(buffer.directions.clone()));
+    buffer.directions.clear();
 }

@@ -1,3 +1,3 @@
-pub use last_input::LastInput;
+pub use buffer::Buffer;
 
-mod last_input;
+mod buffer;

@@ -1,3 +1,3 @@
-pub use velocity::Velocity;
+pub use player::Player;
 
-mod velocity;
+mod player;

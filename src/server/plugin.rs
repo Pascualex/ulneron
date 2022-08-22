@@ -10,7 +10,7 @@ pub struct ServerPlugin;
 
 impl Plugin for ServerPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<LastInput>()
+        app.init_resource::<Buffer>()
             .add_system(read)
             .add_system_set(
                 SystemSet::new()

@@ -1,13 +1,14 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, utils::HashMap};
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct DownstreamEvent {
-    pub direction: Vec2,
+    pub directions: HashMap<Uuid, Vec2>,
 }
 
 impl DownstreamEvent {
-    pub fn new(direction: Vec2) -> Self {
-        Self { direction }
+    pub fn new(directions: HashMap<Uuid, Vec2>) -> Self {
+        Self { directions }
     }
 }
