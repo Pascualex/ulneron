@@ -1,9 +1,6 @@
 use bevy::prelude::*;
-use uuid::Uuid;
 
-use crate::events::upstream::JoinEvent;
-
-pub fn setup(mut commands: Commands, id: Res<Uuid>, mut join_writer: EventWriter<JoinEvent>) {
+pub fn setup(mut commands: Commands) {
     commands.spawn_bundle(Camera3dBundle {
         transform: Transform::from_xyz(-5.0, 15.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
@@ -26,6 +23,4 @@ pub fn setup(mut commands: Commands, id: Res<Uuid>, mut join_writer: EventWriter
         },
         ..default()
     });
-
-    join_writer.send(JoinEvent::new(*id));
 }

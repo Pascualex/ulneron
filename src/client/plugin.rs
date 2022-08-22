@@ -1,20 +1,22 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, time::FixedTimestep};
 use uuid::Uuid;
 
-use crate::client::{resources::*, setup, systems::*};
+use crate::{client::{setup, systems::*}, TIME_STEP};
 
 #[derive(Default)]
 pub struct ClientPlugin;
 
 impl Plugin for ClientPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(EntitiesIds::new())
-            .insert_resource(InputState::new())
-            .insert_resource(Uuid::new_v4())
+        app.insert_resource(Uuid::new_v4())
+            .init_resource::<Option<Entity>>()
             .add_startup_system(setup)
-            .add_system(spawn_sync)
-            .add_system(movement.after(movement_sync))
-            .add_system(movement_input)
-            .add_system(movement_sync.after(spawn_sync));
+            .add_system(movement)
+            .add_system(spawn)
+            .add_system_set(
+                SystemSet::new()
+                    .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))
+                    .with_system(movement_input),
+            );
     }
 }

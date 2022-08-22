@@ -1,4 +1,4 @@
-pub use plugin::ServerPlugin;
+pub use plugin::ServerNetworkingPlugin;
 
 mod plugin;
 mod resources;

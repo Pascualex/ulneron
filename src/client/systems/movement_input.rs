@@ -1,13 +1,10 @@
 use bevy::prelude::*;
-use uuid::Uuid;
 
-use crate::{client::resources::InputState, events::upstream::InputEvent};
+use crate::protocol::events::UpstreamEvent;
 
 pub fn movement_input(
     keyboard_input: Res<Input<KeyCode>>,
-    mut input_state: ResMut<InputState>,
-    id: Res<Uuid>,
-    mut writer: EventWriter<InputEvent>,
+    mut upstream_writer: EventWriter<UpstreamEvent>,
 ) {
     let mut direction = Vec2::ZERO;
 
@@ -24,8 +21,7 @@ pub fn movement_input(
         direction.x -= 1.0;
     }
 
-    if direction != input_state.previous_direction {
-        input_state.previous_direction = direction;
-        writer.send(InputEvent::new(*id, direction));
+    if direction != Vec2::ZERO {
+        upstream_writer.send(UpstreamEvent { direction });
     }
 }

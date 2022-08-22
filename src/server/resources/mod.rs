@@ -1,3 +1,3 @@
-pub use entities_ids::EntitiesIds;
+pub use last_input::LastInput;
 
-mod entities_ids;
+mod last_input;

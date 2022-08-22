@@ -1,34 +1,29 @@
 use bevy::prelude::*;
 
-use crate::{
-    client::{components::Velocity, resources::EntitiesIds},
-    events::downstream::SpawnEvent,
-};
+use crate::client::components::Velocity;
 
-pub fn spawn_sync(
-    mut spawn_reader: EventReader<SpawnEvent>,
+pub fn spawn(
+    mut entity_spawned: ResMut<Option<Entity>>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    mut entities_ids: ResMut<EntitiesIds>,
 ) {
-    for spawn in spawn_reader.iter() {
-        if entities_ids.map.contains_key(&spawn.id) {
-            continue;
-        }
-        let entity = commands
-            .spawn_bundle(MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(shape::Capsule {
-                    radius: 0.25,
-                    depth: 0.5,
-                    ..default()
-                })),
-                material: materials.add(Color::WHITE.into()),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
-                ..default()
-            })
-            .insert(Velocity::from_xy(0.0, 0.0))
-            .id();
-        entities_ids.map.insert(spawn.id, entity);
+    if entity_spawned.is_some() {
+        return;
     }
+
+    let entity = commands
+        .spawn_bundle(MaterialMeshBundle {
+            mesh: meshes.add(Mesh::from(shape::Capsule {
+                radius: 0.25,
+                depth: 0.5,
+                ..default()
+            })),
+            material: materials.add(Color::WHITE.into()),
+            transform: Transform::from_xyz(0.0, 0.5, 0.0),
+            ..default()
+        })
+        .insert(Velocity::from_xy(0.0, 0.0))
+        .id();
+    let _ = entity_spawned.insert(entity);
 }

@@ -1,7 +1,6 @@
 pub mod client;
-pub mod client_endpoint;
-pub mod events;
+pub mod networking;
+pub mod protocol;
 pub mod server;
-pub mod server_endpoint;
 
-pub const TIME_STEP: f64 = 1.0 / 60.0;
+pub const TIME_STEP: f32 = 1.0 / 30.0;
