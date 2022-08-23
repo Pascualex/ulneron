@@ -2,26 +2,22 @@ use bevy::prelude::*;
 
 use crate::{
     client::{
-        components::Player,
-        resources::{PlayerIds, TickBuffer},
+        components::{Position, Velocity},
+        resources::TickBuffer,
     },
     TIME_STEP,
 };
 
 pub fn movement(
     tick_buffer: Res<TickBuffer>,
-    player_ids: Res<PlayerIds>,
-    mut query: Query<&mut Transform, With<Player>>,
+    mut query: Query<(&mut Position, &Velocity, &mut Transform)>,
 ) {
-    let tick = match tick_buffer.ticks.first() {
-        Some(tick) => tick,
-        None => return,
-    };
+    if tick_buffer.ticks.is_empty() {
+        return;
+    }
 
-    for (id, action) in tick.iter() {
-        let entity = *player_ids.map.get(id).unwrap();
-        let mut transform = query.get_mut(entity).unwrap();
-        let velocity_3d = Vec3::new(action.direction.y, 0.0, action.direction.x) * 5.0;
-        transform.translation += velocity_3d * TIME_STEP;
+    for (mut position, velocity, mut transform) in query.iter_mut() {
+        position.value += velocity.value * TIME_STEP;
+        transform.translation = Vec3::new(position.value.y, 0.5, position.value.x);
     }
 }

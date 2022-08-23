@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::client::{
-    components::Player,
+    components::{Player, Position, Velocity},
     resources::{PlayerIds, TickBuffer},
 };
 
@@ -32,6 +32,8 @@ pub fn spawn(
                 transform: Transform::from_xyz(0.0, 0.5, 0.0),
                 ..default()
             })
+            .insert(Position::from_xy(0.0, 0.0))
+            .insert(Velocity::from_xy(0.0, 0.0))
             .insert(Player)
             .id();
         player_ids.map.try_insert(*id, entity).unwrap();
