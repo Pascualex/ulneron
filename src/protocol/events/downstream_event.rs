@@ -1,14 +1,14 @@
-use bevy::{prelude::*, utils::HashMap};
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+
+use crate::protocol::data::Tick;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct DownstreamEvent {
-    pub directions: HashMap<Uuid, Vec2>,
+    pub tick: Tick,
 }
 
 impl DownstreamEvent {
-    pub fn new(directions: HashMap<Uuid, Vec2>) -> Self {
-        Self { directions }
+    pub fn new(tick: Tick) -> Self {
+        Self { tick }
     }
 }

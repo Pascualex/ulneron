@@ -13,7 +13,9 @@ impl Plugin for ServerNetworkingPlugin {
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
             .init_resource::<Clients>()
-            .add_system_to_stage(CoreStage::First, receiver)
-            .add_system_to_stage(CoreStage::Last, sender);
+            .init_resource::<DownstreamBuffer>()
+            .add_system_to_stage(CoreStage::First, upstream_receiver_writer)
+            .add_system_to_stage(CoreStage::Last, downstream_reader)
+            .add_system_to_stage(CoreStage::Last, downstream_sender.after(downstream_reader));
     }
 }

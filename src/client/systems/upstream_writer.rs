@@ -1,29 +1,27 @@
 use bevy::prelude::*;
 use uuid::Uuid;
 
-use crate::protocol::events::UpstreamEvent;
+use crate::protocol::{data::Action, events::UpstreamEvent};
 
-pub fn movement_input(
+pub fn upstream_writer(
     keyboard_input: Res<Input<KeyCode>>,
     id: Res<Uuid>,
     mut upstream_writer: EventWriter<UpstreamEvent>,
 ) {
-    let mut direction = Vec2::ZERO;
+    let mut action = Action::new();
 
     if keyboard_input.pressed(KeyCode::Up) {
-        direction.y += 1.0;
+        action.direction.y += 1.0;
     }
     if keyboard_input.pressed(KeyCode::Right) {
-        direction.x += 1.0;
+        action.direction.x += 1.0;
     }
     if keyboard_input.pressed(KeyCode::Down) {
-        direction.y -= 1.0;
+        action.direction.y -= 1.0;
     }
     if keyboard_input.pressed(KeyCode::Left) {
-        direction.x -= 1.0;
+        action.direction.x -= 1.0;
     }
 
-    if direction != Vec2::ZERO {
-        upstream_writer.send(UpstreamEvent::new(*id, direction));
-    }
+    upstream_writer.send(UpstreamEvent::new(*id, action));
 }

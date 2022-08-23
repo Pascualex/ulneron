@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use uuid::Uuid;
 
-use crate::protocol::events::UpstreamEvent;
+use crate::protocol::{data::Action, events::UpstreamEvent};
 
 pub fn setup(
     mut commands: Commands,
@@ -30,5 +30,5 @@ pub fn setup(
         },
         ..default()
     });
-    upstream_writer.send(UpstreamEvent::new(*id, Vec2::ZERO));
+    upstream_writer.send(UpstreamEvent::new(*id, Action::new()));
 }

@@ -1,15 +1,16 @@
-use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+
+use crate::protocol::data::Action;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct UpstreamEvent {
     pub id: Uuid,
-    pub direction: Vec2,
+    pub action: Action,
 }
 
 impl UpstreamEvent {
-    pub fn new(id: Uuid, direction: Vec2) -> Self {
-        Self { id, direction }
+    pub fn new(id: Uuid, action: Action) -> Self {
+        Self { id, action }
     }
 }

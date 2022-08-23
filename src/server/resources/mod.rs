@@ -1,3 +1,3 @@
-pub use buffer::Buffer;
+pub use tick_builder::TickBuilder;
 
-mod buffer;
+mod tick_builder;

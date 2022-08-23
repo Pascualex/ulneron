@@ -4,6 +4,8 @@ use bevy::prelude::*;
 
 use crate::networking::client::systems::*;
 
+use super::resources::DownstreamBuffer;
+
 #[derive(Default)]
 pub struct ClientNetworkingPlugin;
 
@@ -14,7 +16,12 @@ impl Plugin for ClientNetworkingPlugin {
         socket.connect("127.0.0.1:34243").unwrap();
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
-            .add_system_to_stage(CoreStage::First, receiver)
-            .add_system_to_stage(CoreStage::Last, sender);
+            .init_resource::<DownstreamBuffer>()
+            .add_system_to_stage(CoreStage::First, downstream_receiver)
+            .add_system_to_stage(
+                CoreStage::First,
+                downstream_writer.after(downstream_receiver),
+            )
+            .add_system_to_stage(CoreStage::Last, upstream_reader_sender);
     }
 }

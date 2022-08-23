@@ -1,5 +1,5 @@
-pub use read::read;
-pub use tick::tick;
+pub use downstream_writer::downstream_writer;
+pub use upstream_reader::upstream_reader;
 
-mod read;
-mod tick;
+mod downstream_writer;
+mod upstream_reader;
