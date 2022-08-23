@@ -6,7 +6,6 @@ use crate::{
     TIME_STEP,
 };
 
-#[derive(Default)]
 pub struct ClientPlugin;
 
 impl Plugin for ClientPlugin {

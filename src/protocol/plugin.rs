@@ -2,7 +2,6 @@ use bevy::prelude::*;
 
 use crate::protocol::events::*;
 
-#[derive(Default)]
 pub struct ProtocolPlugin;
 
 impl Plugin for ProtocolPlugin {

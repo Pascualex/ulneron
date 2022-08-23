@@ -2,9 +2,11 @@ use std::net::UdpSocket;
 
 use bevy::prelude::*;
 
-use crate::{networking::server::{resources::*, systems::*}, BUFFER_SIZE};
+use crate::{
+    networking::server::{resources::*, systems::*},
+    BUFFER_SIZE,
+};
 
-#[derive(Default)]
 pub struct ServerNetworkingPlugin;
 
 impl Plugin for ServerNetworkingPlugin {
