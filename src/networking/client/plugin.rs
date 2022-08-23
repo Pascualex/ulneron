@@ -14,7 +14,7 @@ impl Plugin for ClientNetworkingPlugin {
         socket.connect("127.0.0.1:34243").unwrap();
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
-            .add_system(receiver)
-            .add_system(sender);
+            .add_system_to_stage(CoreStage::First, receiver)
+            .add_system_to_stage(CoreStage::Last, sender);
     }
 }

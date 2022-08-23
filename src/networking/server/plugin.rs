@@ -13,7 +13,7 @@ impl Plugin for ServerNetworkingPlugin {
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
             .init_resource::<Clients>()
-            .add_system(receiver)
-            .add_system(sender);
+            .add_system_to_stage(CoreStage::First, receiver)
+            .add_system_to_stage(CoreStage::Last, sender);
     }
 }
