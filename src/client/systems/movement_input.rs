@@ -18,6 +18,6 @@ pub fn movement_input(
     for (id, action) in tick.iter() {
         let entity = *player_ids.map.get(id).unwrap();
         let mut velocity = query.get_mut(entity).unwrap();
-        velocity.value = action.direction * 5.0;
+        velocity.value = action.direction.normalize_or_zero() * 5.0;
     }
 }
