@@ -2,7 +2,7 @@ use std::net::UdpSocket;
 
 use bevy::prelude::*;
 
-use crate::networking::client::systems::*;
+use crate::{networking::client::systems::*, BUFFER_SIZE};
 
 use super::resources::DownstreamBuffer;
 
@@ -16,6 +16,7 @@ impl Plugin for ClientNetworkingPlugin {
         socket.connect("127.0.0.1:34243").unwrap();
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
+            .insert_resource([0_u8; BUFFER_SIZE])
             .init_resource::<DownstreamBuffer>()
             .add_system_to_stage(CoreStage::First, downstream_receiver)
             .add_system_to_stage(
