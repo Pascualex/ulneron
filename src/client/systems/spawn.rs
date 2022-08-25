@@ -2,15 +2,11 @@ use bevy::prelude::*;
 
 use crate::client::{
     components::{Player, Position, Velocity},
-    resources::{PlayerEntities, TickBuffer},
+    resources::{PlayerEntities, Ticks},
 };
 
-pub fn spawn(
-    tick_buffer: Res<TickBuffer>,
-    mut player_ids: ResMut<PlayerEntities>,
-    mut commands: Commands,
-) {
-    let tick = match tick_buffer.ticks.first() {
+pub fn spawn(ticks: Res<Ticks>, mut player_ids: ResMut<PlayerEntities>, mut commands: Commands) {
+    let tick = match ticks.current() {
         Some(tick) => tick,
         None => return,
     };

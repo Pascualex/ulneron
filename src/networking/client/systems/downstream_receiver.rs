@@ -8,13 +8,13 @@ use crate::{
 };
 
 pub fn downstream_receiver(
-    socket: Res<UdpSocket>,
-    mut downstream_buffer: ResMut<DownstreamBuffer>,
+    receiver: Res<UdpSocket>,
     mut bytes: ResMut<[u8; BUFFER_SIZE]>,
+    mut buffer: ResMut<DownstreamBuffer>,
 ) {
-    while socket.recv(bytes.as_mut()).is_ok() {
-        let downstream: DownstreamMessage = bincode::deserialize(bytes.as_ref()).unwrap();
-        let key = downstream.sequence_number;
-        downstream_buffer.ticks.insert(key, downstream.tick);
+    let bytes = bytes.as_mut();
+    while receiver.recv(bytes).is_ok() {
+        let msg: DownstreamMessage = bincode::deserialize(bytes).unwrap();
+        buffer.ticks.insert(msg.sequence_number, msg.tick);
     }
 }

@@ -3,16 +3,13 @@ use bevy::prelude::*;
 use crate::{
     client::{
         components::{Position, Velocity},
-        resources::TickBuffer,
+        resources::Ticks,
     },
     TIME_STEP,
 };
 
-pub fn movement(
-    tick_buffer: Res<TickBuffer>,
-    mut query: Query<(&mut Position, &Velocity, &mut Transform)>,
-) {
-    if tick_buffer.ticks.is_empty() {
+pub fn movement(ticks: Res<Ticks>, mut query: Query<(&mut Position, &Velocity, &mut Transform)>) {
+    if ticks.is_empty() {
         return;
     }
 

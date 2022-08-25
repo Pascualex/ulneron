@@ -26,7 +26,7 @@ impl Plugin for ClientNetworkingPlugin {
         socket.set_nonblocking(true).unwrap();
         app.insert_resource(socket)
             .insert_resource([0_u8; BUFFER_SIZE])
-            .init_resource::<DownstreamBuffer>()
+            .insert_resource(DownstreamBuffer::new())
             .add_system_to_stage(CoreStage::First, downstream_receiver)
             .add_system_to_stage(
                 CoreStage::First,

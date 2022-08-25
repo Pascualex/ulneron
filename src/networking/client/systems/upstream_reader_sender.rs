@@ -4,13 +4,10 @@ use bevy::prelude::*;
 
 use crate::protocol::{events::UpstreamEvent, messages::UpstreamMessage};
 
-pub fn upstream_reader_sender(
-    mut upstream_reader: EventReader<UpstreamEvent>,
-    socket: Res<UdpSocket>,
-) {
-    if let Some(event) = upstream_reader.iter().last() {
-        let message = UpstreamMessage::new(event.action.clone());
-        let bytes = bincode::serialize(&message).unwrap();
-        socket.send(&bytes).unwrap();
+pub fn upstream_reader_sender(mut reader: EventReader<UpstreamEvent>, sender: Res<UdpSocket>) {
+    if let Some(ev) = reader.iter().last() {
+        let msg = UpstreamMessage::new(ev.action.clone(), None);
+        let bytes = bincode::serialize(&msg).unwrap();
+        sender.send(&bytes).unwrap();
     }
 }

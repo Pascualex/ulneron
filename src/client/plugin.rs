@@ -9,7 +9,7 @@ pub struct ClientPlugin;
 
 impl Plugin for ClientPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<TickBuffer>()
+        app.init_resource::<Ticks>()
             .init_resource::<PlayerEntities>()
             .add_startup_system(setup)
             .add_system_to_stage(CoreStage::PreUpdate, downstream_reader)

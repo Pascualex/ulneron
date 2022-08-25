@@ -9,7 +9,7 @@ use zombie_bevy::{
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let server_addr = match args.len() {
+    let server_address = match args.len() {
         2 => args[1].clone(),
         _ => "127.0.0.1".to_string(),
     };
@@ -17,7 +17,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(ClientPlugin)
         .add_plugin(GraphicsPlugin)
-        .add_plugin(ClientNetworkingPlugin::new(server_addr))
+        .add_plugin(ClientNetworkingPlugin::new(server_address))
         .add_plugin(ProtocolPlugin)
         .add_system(close_on_esc)
         .run();

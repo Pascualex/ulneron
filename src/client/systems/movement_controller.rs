@@ -2,15 +2,15 @@ use bevy::prelude::*;
 
 use crate::client::{
     components::{Player, Velocity},
-    resources::{PlayerEntities, TickBuffer},
+    resources::{PlayerEntities, Ticks},
 };
 
 pub fn movement_controller(
-    tick_buffer: Res<TickBuffer>,
+    ticks: Res<Ticks>,
     player_ids: Res<PlayerEntities>,
     mut query: Query<&mut Velocity, With<Player>>,
 ) {
-    let tick = match tick_buffer.ticks.first() {
+    let tick = match ticks.current() {
         Some(tick) => tick,
         None => return,
     };

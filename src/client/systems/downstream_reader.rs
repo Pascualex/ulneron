@@ -1,17 +1,13 @@
 use bevy::prelude::*;
 
-use crate::{client::resources::TickBuffer, protocol::events::DownstreamEvent};
+use crate::{client::resources::Ticks, protocol::events::DownstreamEvent};
 
-pub fn downstream_reader(
-    mut downstream_reader: EventReader<DownstreamEvent>,
-    mut tick_buffer: ResMut<TickBuffer>,
-) {
-    if !tick_buffer.ticks.is_empty() {
-        tick_buffer.ticks.remove(0);
+pub fn downstream_reader(mut reader: EventReader<DownstreamEvent>, mut ticks: ResMut<Ticks>) {
+    if !ticks.vec.is_empty() {
+        ticks.vec.remove(0);
     }
 
-    for downstream in downstream_reader.iter() {
-        let tick = downstream.tick.clone();
-        tick_buffer.ticks.push(tick);
+    for downstream in reader.iter() {
+        ticks.vec.push(downstream.tick.clone());
     }
 }
