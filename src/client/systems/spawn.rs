@@ -9,8 +9,6 @@ pub fn spawn(
     tick_buffer: Res<TickBuffer>,
     mut player_ids: ResMut<PlayerIds>,
     mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let tick = match tick_buffer.ticks.first() {
         Some(tick) => tick,
@@ -22,16 +20,7 @@ pub fn spawn(
             continue;
         }
         let entity = commands
-            .spawn_bundle(MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(shape::Capsule {
-                    radius: 0.25,
-                    depth: 0.5,
-                    ..default()
-                })),
-                material: materials.add(Color::WHITE.into()),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
-                ..default()
-            })
+            .spawn()
             .insert(Position::from_xy(0.0, 0.0))
             .insert(Velocity::from_xy(0.0, 0.0))
             .insert(Player)

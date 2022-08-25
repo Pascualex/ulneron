@@ -14,9 +14,8 @@ impl Plugin for ClientPlugin {
             .add_startup_system(setup)
             .add_system_to_stage(CoreStage::PreUpdate, downstream_reader)
             .add_system_to_stage(CoreStage::PreUpdate, spawn.after(downstream_reader))
-            .add_system(movement_view)
-            .add_system(movement.after(movement_view))
-            .add_system(movement_input.after(movement))
+            .add_system(movement)
+            .add_system(movement_controller.after(movement))
             .add_system_set(
                 SystemSet::new()
                     .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))

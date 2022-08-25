@@ -2,9 +2,10 @@ use std::net::UdpSocket;
 
 use bevy::prelude::*;
 
-use crate::{networking::client::systems::*, BUFFER_SIZE};
-
-use super::resources::DownstreamBuffer;
+use crate::{
+    networking::client::{resources::*, systems::*},
+    BUFFER_SIZE,
+};
 
 pub struct ClientNetworkingPlugin {
     server_address: String,

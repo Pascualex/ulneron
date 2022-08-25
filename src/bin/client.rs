@@ -3,7 +3,8 @@ use std::env;
 use bevy::{prelude::*, window::close_on_esc};
 
 use zombie_bevy::{
-    client::ClientPlugin, networking::client::ClientNetworkingPlugin, protocol::ProtocolPlugin,
+    client::ClientPlugin, graphics::GraphicsPlugin, networking::client::ClientNetworkingPlugin,
+    protocol::ProtocolPlugin,
 };
 
 fn main() {
@@ -15,6 +16,7 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugin(ClientPlugin)
+        .add_plugin(GraphicsPlugin)
         .add_plugin(ClientNetworkingPlugin::new(server_addr))
         .add_plugin(ProtocolPlugin)
         .add_system(close_on_esc)

@@ -5,7 +5,7 @@ use crate::client::{
     resources::{PlayerIds, TickBuffer},
 };
 
-pub fn movement_input(
+pub fn movement_controller(
     tick_buffer: Res<TickBuffer>,
     player_ids: Res<PlayerIds>,
     mut query: Query<&mut Velocity, With<Player>>,
