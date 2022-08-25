@@ -1,11 +1,9 @@
 use bevy::prelude::*;
-use uuid::Uuid;
 
 use crate::protocol::{data::Action, events::UpstreamEvent};
 
 pub fn upstream_writer(
     keyboard_input: Res<Input<KeyCode>>,
-    id: Res<Uuid>,
     mut upstream_writer: EventWriter<UpstreamEvent>,
 ) {
     let mut action = Action::new();
@@ -23,5 +21,5 @@ pub fn upstream_writer(
         action.direction.x -= 1.0;
     }
 
-    upstream_writer.send(UpstreamEvent::new(*id, action));
+    upstream_writer.send(UpstreamEvent::new_local(action));
 }

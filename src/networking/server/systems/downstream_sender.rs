@@ -9,11 +9,11 @@ pub fn downstream_sender(
     mut clients: ResMut<Clients>,
     socket: Res<UdpSocket>,
 ) {
-    for (address, sequence_number) in clients.map.iter_mut() {
-        if (*sequence_number as usize) < tick_buffer.messages.len() {
-            let bytes = &tick_buffer.messages[*sequence_number as usize];
+    for (address, client) in clients.map.iter_mut() {
+        if (client.sequence_number as usize) < tick_buffer.messages.len() {
+            let bytes = &tick_buffer.messages[client.sequence_number as usize];
             socket.send_to(bytes, address).unwrap();
-            *sequence_number += 1;
+            client.sequence_number += 1;
         }
     }
 }

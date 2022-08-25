@@ -1,13 +1,8 @@
 use bevy::prelude::*;
-use uuid::Uuid;
 
 use crate::protocol::{data::Action, events::UpstreamEvent};
 
-pub fn setup(
-    mut commands: Commands,
-    id: Res<Uuid>,
-    mut upstream_writer: EventWriter<UpstreamEvent>,
-) {
+pub fn setup(mut commands: Commands, mut upstream_writer: EventWriter<UpstreamEvent>) {
     commands.spawn_bundle(Camera3dBundle {
         transform: Transform::from_xyz(-5.0, 15.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
@@ -30,5 +25,5 @@ pub fn setup(
         },
         ..default()
     });
-    upstream_writer.send(UpstreamEvent::new(*id, Action::new()));
+    upstream_writer.send(UpstreamEvent::new_local(Action::new()));
 }

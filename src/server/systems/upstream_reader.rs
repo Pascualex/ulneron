@@ -8,6 +8,6 @@ pub fn upstream_reader(
 ) {
     for upstream in upstream_reader.iter() {
         let action = upstream.action.clone();
-        tick_builder.tick.insert(upstream.id, action);
+        tick_builder.tick.insert(upstream.player_id, action);
     }
 }
