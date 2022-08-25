@@ -11,18 +11,9 @@ pub fn setup(
     });
     commands.spawn_bundle(DirectionalLightBundle {
         transform: Transform::from_translation(Vec3::ZERO)
-            .looking_at(Vec3::new(-1.0, -2.0, 1.0), Vec3::Y),
+            .looking_at(Vec3::new(1.0, -2.0, 1.0), Vec3::Y),
         directional_light: DirectionalLight {
             illuminance: 32_000.0,
-            ..default()
-        },
-        ..default()
-    });
-    commands.spawn_bundle(DirectionalLightBundle {
-        transform: Transform::from_translation(Vec3::ZERO)
-            .looking_at(Vec3::new(1.0, -2.0, -1.0), Vec3::Y),
-        directional_light: DirectionalLight {
-            illuminance: 10_000.0,
             ..default()
         },
         ..default()
@@ -30,7 +21,7 @@ pub fn setup(
     commands.spawn_bundle(MaterialMeshBundle {
         mesh: meshes.add(Mesh::from(shape::Box::new(15.0, 0.1, 15.0))),
         material: materials.add(StandardMaterial {
-            base_color: Color::rgb_u8(123, 130, 78),
+            base_color: Color::rgb_u8(46, 204, 113),
             metallic: 0.1,
             perceptual_roughness: 0.7,
             reflectance: 0.3,

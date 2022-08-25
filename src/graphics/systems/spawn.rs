@@ -10,17 +10,12 @@ pub fn spawn(
     mut player_count: Local<u32>,
 ) {
     for entity in query.iter() {
-        let color = match *player_count % 10 {
-            0 => Color::WHITE,
-            1 => Color::BLUE,
-            2 => Color::RED,
-            3 => Color::GREEN,
-            4 => Color::YELLOW,
-            5 => Color::PINK,
-            6 => Color::ORANGE,
-            7 => Color::TEAL,
-            8 => Color::PURPLE,
-            _ => Color::BLACK,
+        let color = match *player_count % 5 {
+            0 => Color::rgb_u8(230, 126, 34),
+            1 => Color::rgb_u8(52, 152, 219),
+            2 => Color::rgb_u8(155, 89, 182),
+            3 => Color::rgb_u8(52, 73, 94),
+            _ => Color::rgb_u8(241, 196, 15),
         };
         *player_count += 1;
         commands.entity(entity).insert_bundle(MaterialMeshBundle {
@@ -29,7 +24,13 @@ pub fn spawn(
                 depth: 0.5,
                 ..default()
             })),
-            material: materials.add(color.into()),
+            material: materials.add(StandardMaterial {
+                base_color: color,
+                metallic: 0.1,
+                perceptual_roughness: 0.7,
+                reflectance: 0.3,
+                ..default()
+            }),
             transform: Transform::default(),
             ..default()
         });
