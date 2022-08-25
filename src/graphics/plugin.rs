@@ -10,6 +10,7 @@ impl Plugin for GraphicsPlugin {
             .add_startup_system(setup)
             .add_system(spawn)
             .add_system(tick_delta)
-            .add_system_to_stage(CoreStage::PostUpdate, movement);
+            .add_system_to_stage(CoreStage::PostUpdate, movement)
+            .add_system_to_stage(CoreStage::PostUpdate, camera.after(movement));
     }
 }

@@ -16,10 +16,9 @@ pub fn upstream_receiver_writer(
 ) {
     let bytes = bytes.as_mut();
     while let Ok((_, address)) = receiver.recv_from(bytes) {
-        let next_id = clients.map.len() as u32 + 1;
         let client = match clients.map.entry(address) {
             Entry::Occupied(client) => client.into_mut(),
-            Entry::Vacant(v) => v.insert(Client::new(next_id)),
+            Entry::Vacant(v) => v.insert(Client::new()),
         };
 
         let msg: UpstreamMessage = bincode::deserialize(bytes).unwrap();
@@ -28,7 +27,7 @@ pub fn upstream_receiver_writer(
             client.sequence_number = rollback;
         }
 
-        let ev = UpstreamEvent::new(client.player_id, msg.action);
+        let ev = UpstreamEvent::new(msg.id, msg.action);
         writer.send(ev);
     }
 }

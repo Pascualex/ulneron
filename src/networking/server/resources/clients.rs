@@ -8,15 +8,11 @@ pub struct Clients {
 }
 
 pub struct Client {
-    pub player_id: u32,
     pub sequence_number: u32,
 }
 
 impl Client {
-    pub fn new(player_id: u32) -> Self {
-        Self {
-            player_id,
-            sequence_number: 0,
-        }
+    pub fn new() -> Self {
+        Self { sequence_number: 0 }
     }
 }

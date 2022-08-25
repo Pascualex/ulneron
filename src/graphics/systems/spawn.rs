@@ -1,27 +1,28 @@
 use bevy::prelude::*;
 
-use crate::client::components::{Player, Position};
+use crate::client::components::Position;
 
 pub fn spawn(
-    query: Query<(Entity, &Player), Added<Position>>,
+    query: Query<Entity, Added<Position>>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
+    mut player_count: Local<u32>,
 ) {
-    for (entity, player) in query.iter() {
-        let color = match player.id % 10 {
+    for entity in query.iter() {
+        let color = match *player_count % 10 {
             0 => Color::WHITE,
-            1 => Color::BLACK,
-            2 => Color::BLUE,
-            3 => Color::RED,
-            4 => Color::GREEN,
-            5 => Color::YELLOW,
-            6 => Color::PINK,
-            7 => Color::ORANGE,
-            8 => Color::TEAL,
-            9 => Color::PURPLE,
-            _ => panic!(),
+            1 => Color::BLUE,
+            2 => Color::RED,
+            3 => Color::GREEN,
+            4 => Color::YELLOW,
+            5 => Color::PINK,
+            6 => Color::ORANGE,
+            7 => Color::TEAL,
+            8 => Color::PURPLE,
+            _ => Color::BLACK,
         };
+        *player_count += 1;
         commands.entity(entity).insert_bundle(MaterialMeshBundle {
             mesh: meshes.add(Mesh::from(shape::Capsule {
                 radius: 0.25,

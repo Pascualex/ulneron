@@ -20,7 +20,7 @@ pub fn upstream_reader_sender(
             }
             false => None,
         };
-        let msg = UpstreamMessage::new(ev.action.clone(), rollback);
+        let msg = UpstreamMessage::new(ev.id, ev.action.clone(), rollback);
         let bytes = bincode::serialize(&msg).unwrap();
         sender.send(&bytes).unwrap();
     }

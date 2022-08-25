@@ -1,8 +1,15 @@
 use bevy::prelude::*;
 
-use crate::protocol::{data::Action, events::UpstreamEvent};
+use crate::{
+    client::resources::LocalPlayer,
+    protocol::{data::Action, events::UpstreamEvent},
+};
 
-pub fn upstream_writer(input: Res<Input<KeyCode>>, mut writer: EventWriter<UpstreamEvent>) {
+pub fn upstream_writer(
+    input: Res<Input<KeyCode>>,
+    local_player: Res<LocalPlayer>,
+    mut writer: EventWriter<UpstreamEvent>,
+) {
     let mut action = Action::new();
 
     if input.pressed(KeyCode::Up) {
@@ -18,5 +25,5 @@ pub fn upstream_writer(input: Res<Input<KeyCode>>, mut writer: EventWriter<Upstr
         action.direction.x -= 1.0;
     }
 
-    writer.send(UpstreamEvent::new_local(action));
+    writer.send(UpstreamEvent::new(local_player.id, action));
 }
