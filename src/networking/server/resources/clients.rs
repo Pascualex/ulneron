@@ -4,5 +4,5 @@ use bevy::utils::HashMap;
 
 #[derive(Default)]
 pub struct Clients {
-    pub map: HashMap<SocketAddr, usize>,
+    pub map: HashMap<SocketAddr, u32>,
 }

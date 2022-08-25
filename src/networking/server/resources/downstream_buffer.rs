@@ -1,4 +1,4 @@
 #[derive(Default)]
 pub struct DownstreamBuffer {
-    pub events: Vec<Vec<u8>>,
+    pub messages: Vec<Vec<u8>>,
 }

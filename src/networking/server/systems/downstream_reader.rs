@@ -1,14 +1,18 @@
 use bevy::prelude::*;
 
-use crate::{networking::server::resources::DownstreamBuffer, protocol::events::DownstreamEvent};
+use crate::{
+    networking::server::resources::DownstreamBuffer,
+    protocol::{events::DownstreamEvent, messages::DownstreamMessage},
+};
 
 pub fn downstream_reader(
     mut downstream_reader: EventReader<DownstreamEvent>,
     mut downstream_buffer: ResMut<DownstreamBuffer>,
 ) {
-    for downstream in downstream_reader.iter() {
-        let number = downstream_buffer.events.len();
-        let bytes = bincode::serialize(&(number, downstream.clone())).unwrap();
-        downstream_buffer.events.push(bytes);
+    for event in downstream_reader.iter() {
+        let sequence_number = downstream_buffer.messages.len() as u32;
+        let message = DownstreamMessage::new(sequence_number, event.tick.clone());
+        let bytes = bincode::serialize(&message).unwrap();
+        downstream_buffer.messages.push(bytes);
     }
 }

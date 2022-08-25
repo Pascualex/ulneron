@@ -1,8 +1,5 @@
-use serde::{Deserialize, Serialize};
-
 use crate::protocol::data::Tick;
 
-#[derive(Clone, Serialize, Deserialize)]
 pub struct DownstreamEvent {
     pub tick: Tick,
 }

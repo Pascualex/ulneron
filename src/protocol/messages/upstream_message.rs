@@ -1,13 +1,15 @@
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::protocol::data::Action;
 
-pub struct UpstreamEvent {
+#[derive(Serialize, Deserialize)]
+pub struct UpstreamMessage {
     pub id: Uuid,
     pub action: Action,
 }
 
-impl UpstreamEvent {
+impl UpstreamMessage {
     pub fn new(id: Uuid, action: Action) -> Self {
         Self { id, action }
     }

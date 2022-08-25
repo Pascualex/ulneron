@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::client::components::{Velocity};
+use crate::client::components::Velocity;
 
 pub fn movement_view(mut query: Query<(&mut Transform, &Velocity)>, time: Res<Time>) {
     for (mut transform, velocity) in query.iter_mut() {
