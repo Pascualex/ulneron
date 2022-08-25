@@ -1,5 +1,5 @@
-pub use player_ids::PlayerIds;
+pub use player_entities::PlayerEntities;
 pub use tick_buffer::TickBuffer;
 
-mod player_ids;
+mod player_entities;
 mod tick_buffer;
