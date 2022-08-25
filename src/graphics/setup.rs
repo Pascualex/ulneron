@@ -1,6 +1,10 @@
 use bevy::prelude::*;
 
-pub fn setup(mut commands: Commands) {
+pub fn setup(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+) {
     commands.spawn_bundle(Camera3dBundle {
         transform: Transform::from_xyz(-5.0, 15.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
@@ -21,6 +25,18 @@ pub fn setup(mut commands: Commands) {
             illuminance: 10_000.0,
             ..default()
         },
+        ..default()
+    });
+    commands.spawn_bundle(MaterialMeshBundle {
+        mesh: meshes.add(Mesh::from(shape::Box::new(15.0, 0.1, 15.0))),
+        material: materials.add(StandardMaterial {
+            base_color: Color::rgb_u8(123, 130, 78),
+            metallic: 0.1,
+            perceptual_roughness: 0.7,
+            reflectance: 0.3,
+            ..default()
+        }),
+        transform: Transform::from_xyz(0.0, 0.05, 0.0),
         ..default()
     });
 }
