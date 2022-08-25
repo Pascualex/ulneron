@@ -21,7 +21,13 @@ pub fn upstream_receiver_writer(
             Entry::Occupied(client) => client.into_mut(),
             Entry::Vacant(v) => v.insert(Client::new(next_id)),
         };
+
         let msg: UpstreamMessage = bincode::deserialize(bytes).unwrap();
+
+        if let Some(rollback) = msg.rollback {
+            client.sequence_number = rollback;
+        }
+
         let ev = UpstreamEvent::new(client.player_id, msg.action);
         writer.send(ev);
     }

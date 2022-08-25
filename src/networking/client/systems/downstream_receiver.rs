@@ -15,6 +15,13 @@ pub fn downstream_receiver(
     let bytes = bytes.as_mut();
     while receiver.recv(bytes).is_ok() {
         let msg: DownstreamMessage = bincode::deserialize(bytes).unwrap();
+        buffer.patience = match msg.sequence_number == buffer.sequence_number {
+            true => 5,
+            false => buffer.patience.saturating_sub(1),
+        };
         buffer.ticks.insert(msg.sequence_number, msg.tick);
+        while buffer.ticks.contains_key(&buffer.sequence_number) {
+            buffer.sequence_number += 1;
+        }
     }
 }

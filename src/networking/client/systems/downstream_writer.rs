@@ -6,8 +6,8 @@ pub fn downstream_writer(
     mut buffer: ResMut<DownstreamBuffer>,
     mut writer: EventWriter<DownstreamEvent>,
 ) {
-    if let Some(tick) = buffer.current() {
+    if let Some(tick) = buffer.ticks.get(&buffer.ticks_sent) {
         writer.send(DownstreamEvent::new(tick.clone()));
-        buffer.sequence_number += 1;
+        buffer.ticks_sent += 1;
     }
 }
