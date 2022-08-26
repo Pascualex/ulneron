@@ -7,9 +7,15 @@
         "bincode",
         "deque",
         "fastrand",
+        "gameplay",
+        "neron",
+        "nerons",
         "nonblocking",
         "recv",
         "Timestep",
-        "uuid"
+        "Tyranids",
+        "ulneron",
+        "uuid",
+        "Warhammer"
     ],
 }
