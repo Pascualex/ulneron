@@ -2,7 +2,7 @@ use std::env;
 
 use bevy::{prelude::*, window::close_on_esc};
 
-use zombie_bevy::{
+use ulneron::{
     client::ClientPlugin, graphics::GraphicsPlugin, networking::client::ClientNetworkingPlugin,
     protocol::ProtocolPlugin,
 };

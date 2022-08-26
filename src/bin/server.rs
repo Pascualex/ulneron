@@ -1,6 +1,6 @@
 use bevy::{prelude::*, window::close_on_esc};
 
-use zombie_bevy::{
+use ulneron::{
     client::ClientPlugin, graphics::GraphicsPlugin, networking::server::ServerNetworkingPlugin,
     protocol::ProtocolPlugin, server::ServerPlugin,
 };
