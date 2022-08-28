@@ -4,7 +4,9 @@ use bevy::{prelude::*, window::close_on_esc};
 
 use ulneron::{
     client::game::ClientGamePlugin,
-    client::{controller::ClientControllerPlugin, graphics::ClientGraphicsPlugin},
+    client::{
+        controller::ClientControllerPlugin, graphics::ClientGraphicsPlugin, ui::ClientLobbyPlugin,
+    },
     networking::client::ClientNetworkingPlugin,
     protocol::ProtocolPlugin,
 };
@@ -19,6 +21,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(ProtocolPlugin)
         .add_plugin(ClientGamePlugin)
+        .add_plugin(ClientLobbyPlugin)
         .add_plugin(ClientControllerPlugin)
         .add_plugin(ClientGraphicsPlugin)
         .add_plugin(ClientNetworkingPlugin::new(server_address))

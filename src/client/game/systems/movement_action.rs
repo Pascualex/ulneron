@@ -16,7 +16,7 @@ pub fn movement_action(
     };
 
     for (id, action) in tick.iter().enumerate() {
-        let entity = players_info.vec[id].entity;
+        let entity = players_info.entities[id];
         let mut velocity = query.get_mut(entity).unwrap();
         velocity.value = action.direction.normalize_or_zero() * 5.0;
     }

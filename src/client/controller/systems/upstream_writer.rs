@@ -9,14 +9,15 @@ use crate::{
 };
 
 pub fn upstream_writer(
-    state: Res<GameState>,
+    game_state: Res<GameState>,
     controller_info: Res<ControllerInfo>,
     builder: Res<ActionBuilder>,
     mut writer: EventWriter<UpstreamEvent>,
 ) {
-    let data = match *state {
-        GameState::Lobby => UpstreamData::Join(controller_info.uuid),
-        GameState::Game => UpstreamData::Action(builder.action.clone()),
+    let data = match (game_state.started, controller_info.id.is_some()) {
+        (false, false) => UpstreamData::Join(controller_info.uuid),
+        (true, true) => UpstreamData::Action(builder.action.clone()),
+        _ => return,
     };
     writer.send(UpstreamEvent::new_local(data));
 }

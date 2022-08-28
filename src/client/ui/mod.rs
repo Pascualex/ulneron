@@ -1,7 +1,6 @@
-pub use plugin::ClientGraphicsPlugin;
+pub use plugin::ClientLobbyPlugin;
 
 mod plugin;
-mod resources;
 mod setup;
 mod systems;
 

@@ -6,7 +6,7 @@ pub struct ClientGamePlugin;
 
 impl Plugin for ClientGamePlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(GameState::Lobby)
+        app.init_resource::<GameState>()
             .init_resource::<PlayersInfo>()
             .init_resource::<Ticks>()
             .add_system_to_stage(CoreStage::PreUpdate, downstream_reader)
