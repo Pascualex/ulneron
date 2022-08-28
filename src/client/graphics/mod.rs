@@ -1,4 +1,4 @@
-pub use plugin::GraphicsPlugin;
+pub use plugin::ClientGraphicsPlugin;
 pub use setup::setup;
 
 mod plugin;

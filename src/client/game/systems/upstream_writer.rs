@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    client::resources::{LocalPlayer, PlayersInfo},
+    client::game::resources::{LocalPlayer, PlayersInfo},
     protocol::{
         data::{Action, UpstreamData},
         events::UpstreamEvent,

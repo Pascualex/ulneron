@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
 use crate::{
-    client::components::{Position, Velocity},
-    graphics::resources::TickDelta,
+    client::game::components::{Position, Velocity},
+    client::graphics::resources::TickDelta,
 };
 
 pub fn movement(

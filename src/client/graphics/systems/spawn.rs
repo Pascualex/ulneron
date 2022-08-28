@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::client::components::{Player, Position};
+use crate::client::game::components::{Player, Position};
 
 pub fn spawn(
     query: Query<(Entity, Option<&Player>), Added<Position>>,

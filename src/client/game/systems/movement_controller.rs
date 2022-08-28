@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::client::{
+use crate::client::game::{
     components::{Player, Velocity},
     resources::{PlayersInfo, Ticks},
 };

@@ -1,24 +1,24 @@
 use bevy::prelude::*;
 
-use crate::graphics::{resources::*, setup, systems::*};
+use crate::client::graphics::{resources::*, setup, systems::*};
 
-pub struct GraphicsPlugin;
+pub struct ClientGraphicsPlugin;
 
 #[derive(StageLabel)]
-enum GraphicsStage {
+enum ClientGraphicsStage {
     Spawn,
 }
 
-impl Plugin for GraphicsPlugin {
+impl Plugin for ClientGraphicsPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<TickDelta>()
             .add_stage_before(
                 CoreStage::Update,
-                GraphicsStage::Spawn,
+                ClientGraphicsStage::Spawn,
                 SystemStage::single_threaded(),
             )
             .add_startup_system(setup)
-            .add_system_to_stage(GraphicsStage::Spawn, spawn)
+            .add_system_to_stage(ClientGraphicsStage::Spawn, spawn)
             .add_system(tick_delta)
             .add_system(movement.after(tick_delta))
             .add_system(camera.after(movement));

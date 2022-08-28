@@ -1,5 +1,4 @@
 pub mod client;
-pub mod graphics;
 pub mod networking;
 pub mod protocol;
 pub mod server;

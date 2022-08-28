@@ -1,15 +1,15 @@
 use bevy::{prelude::*, time::FixedTimestep};
 
 use crate::{
-    client::{resources::*, systems::*},
+    client::game::{resources::*, systems::*},
     TIME_STEP,
 };
 
 use super::resources::LocalPlayer;
 
-pub struct ClientPlugin;
+pub struct ClientGamePlugin;
 
-impl Plugin for ClientPlugin {
+impl Plugin for ClientGamePlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<LocalPlayer>()
             .init_resource::<Ticks>()

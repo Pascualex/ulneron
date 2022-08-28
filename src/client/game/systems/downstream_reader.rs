@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    client::{
+    client::game::{
         components::{Player, Position, Velocity},
         resources::{PlayerInfo, PlayersInfo, Ticks},
     },

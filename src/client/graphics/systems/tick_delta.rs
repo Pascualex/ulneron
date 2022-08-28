@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use bevy::prelude::*;
 
-use crate::{client::resources::Ticks, graphics::resources::TickDelta};
+use crate::{client::game::resources::Ticks, client::graphics::resources::TickDelta};
 
 pub fn tick_delta(ticks: Res<Ticks>, time: Res<Time>, mut tick_delta: ResMut<TickDelta>) {
     tick_delta.delta = match ticks.is_empty() {

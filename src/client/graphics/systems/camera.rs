@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::client::resources::{LocalPlayer, PlayersInfo};
+use crate::client::game::resources::{LocalPlayer, PlayersInfo};
 
 pub fn camera(
     local_player: Res<LocalPlayer>,
