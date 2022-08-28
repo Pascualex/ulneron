@@ -3,8 +3,8 @@ use bevy::prelude::*;
 use crate::{
     client::resources::{LocalPlayer, PlayersInfo},
     protocol::{
-        data::Action,
-        events::{UpstreamData, UpstreamEvent},
+        data::{Action, UpstreamData},
+        events::UpstreamEvent,
     },
 };
 

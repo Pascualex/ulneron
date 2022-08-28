@@ -1,15 +1,15 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::events::UpstreamEvent;
+use crate::protocol::data::UpstreamData;
 
 #[derive(Serialize, Deserialize)]
 pub struct UpstreamMessage {
-    pub event: UpstreamEvent,
+    pub data: UpstreamData,
     pub rollback: Option<u32>,
 }
 
 impl UpstreamMessage {
-    pub fn new(event: UpstreamEvent, rollback: Option<u32>) -> Self {
-        Self { event, rollback }
+    pub fn new(data: UpstreamData, rollback: Option<u32>) -> Self {
+        Self { data, rollback }
     }
 }

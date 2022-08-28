@@ -5,7 +5,7 @@ use crate::{
         components::{Player, Position, Velocity},
         resources::{PlayerInfo, PlayersInfo, Ticks},
     },
-    protocol::events::DownstreamEvent,
+    protocol::{data::DownstreamData, events::DownstreamEvent},
 };
 
 pub fn downstream_reader(
@@ -19,21 +19,21 @@ pub fn downstream_reader(
     }
 
     for event in reader.iter() {
-        match event {
-            DownstreamEvent::Startup(startup) => {
+        match &event.data {
+            DownstreamData::Startup(startup) => {
                 players_info.vec.clear();
                 for (id, uuid) in startup.iter().enumerate() {
                     let entity = commands
                         .spawn()
                         .insert(Position::from_xy(0.0, 0.0))
                         .insert(Velocity::from_xy(0.0, 0.0))
-                        .insert(Player::new(id as u8))
+                        .insert(Player::new(id))
                         .id();
                     let player_info = PlayerInfo::new(*uuid, entity);
                     players_info.vec.push(player_info);
                 }
             }
-            DownstreamEvent::Tick(tick) => {
+            DownstreamData::Tick(tick) => {
                 ticks.vec.push(tick.clone());
             }
         };

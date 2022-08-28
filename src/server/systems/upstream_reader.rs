@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    protocol::events::{UpstreamData, UpstreamEvent},
+    protocol::{data::UpstreamData, events::UpstreamEvent},
     server::resources::PlayerInfo,
     server::resources::{GameState, PlayersInfo},
 };
@@ -14,12 +14,14 @@ pub fn upstream_reader(
     for event in reader.iter() {
         match &event.data {
             UpstreamData::Join(uuid) => {
-                if !state.ready && event.id as usize == players_info.vec.len() {
+                if !state.ready && event.id == players_info.vec.len() {
                     players_info.vec.push(PlayerInfo::new(*uuid));
                 }
             }
             UpstreamData::Action(action) => {
-                players_info.vec[event.id as usize].action = action.clone();
+                if event.id < players_info.vec.len() {
+                    players_info.vec[event.id].action = action.clone();
+                }
             }
         }
     }

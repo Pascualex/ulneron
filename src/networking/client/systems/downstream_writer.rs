@@ -7,8 +7,8 @@ pub fn downstream_writer(
     mut writer: EventWriter<DownstreamEvent>,
 ) {
     let mut events_sent = buffer.events_sent;
-    while let Some(event) = buffer.events.remove(&events_sent) {
-        writer.send(event);
+    while let Some(data) = buffer.data.remove(&events_sent) {
+        writer.send(DownstreamEvent::new(data));
         events_sent += 1;
     }
     buffer.events_sent = events_sent;

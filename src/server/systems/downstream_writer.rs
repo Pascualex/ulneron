@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    protocol::events::DownstreamEvent,
+    protocol::{data::DownstreamData, events::DownstreamEvent},
     server::resources::{GameState, PlayersInfo},
 };
 
@@ -15,9 +15,11 @@ pub fn downstream_writer(
     }
     if !state.started {
         let startup = players_info.vec.iter().map(|i| i.uuid).collect();
-        writer.send(DownstreamEvent::Startup(startup));
+        let data = DownstreamData::Startup(startup);
+        writer.send(DownstreamEvent::new(data));
         state.started = true;
     }
     let tick = players_info.vec.iter().map(|i| i.action.clone()).collect();
-    writer.send(DownstreamEvent::Tick(tick));
+    let data = DownstreamData::Tick(tick);
+    writer.send(DownstreamEvent::new(data));
 }

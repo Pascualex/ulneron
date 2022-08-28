@@ -1,11 +1,11 @@
 use bevy::utils::HashMap;
 
-use crate::protocol::events::DownstreamEvent;
+use crate::protocol::data::DownstreamData;
 
 pub struct DownstreamBuffer {
     pub sequence_number: u32,
     pub events_sent: u32,
-    pub events: HashMap<u32, DownstreamEvent>,
+    pub data: HashMap<u32, DownstreamData>,
     pub patience: u32,
 }
 
@@ -14,7 +14,7 @@ impl DownstreamBuffer {
         Self {
             sequence_number: 0,
             events_sent: 0,
-            events: HashMap::new(),
+            data: HashMap::new(),
             patience: 5,
         }
     }
