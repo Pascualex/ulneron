@@ -1,9 +1,7 @@
 pub use downstream_reader::downstream_reader;
 pub use movement::movement;
-pub use movement_controller::movement_controller;
-pub use upstream_writer::upstream_writer;
+pub use movement_action::movement_action;
 
 mod downstream_reader;
 mod movement;
-mod movement_controller;
-mod upstream_writer;
+mod movement_action;

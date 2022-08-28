@@ -9,8 +9,8 @@ pub struct ServerPlugin;
 
 impl Plugin for ServerPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<PlayersInfo>()
-            .init_resource::<GameState>()
+        app.insert_resource(GameState::Lobby)
+            .init_resource::<PlayersInfo>()
             .add_system(game_start)
             .add_system(upstream_reader.after(game_start))
             .add_system_set(

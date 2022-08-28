@@ -1,10 +1,10 @@
 use uuid::Uuid;
 
-pub struct LocalPlayer {
+pub struct ControllerInfo {
     pub uuid: Uuid,
 }
 
-impl Default for LocalPlayer {
+impl Default for ControllerInfo {
     fn default() -> Self {
         Self {
             uuid: Uuid::new_v4(),

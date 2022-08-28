@@ -3,13 +3,14 @@ use bevy::prelude::*;
 use crate::{
     client::game::{
         components::{Player, Position, Velocity},
-        resources::{PlayerInfo, PlayersInfo, Ticks},
+        resources::{GameState, PlayerInfo, PlayersInfo, Ticks},
     },
     protocol::{data::DownstreamData, events::DownstreamEvent},
 };
 
 pub fn downstream_reader(
     mut reader: EventReader<DownstreamEvent>,
+    mut state: ResMut<GameState>,
     mut players_info: ResMut<PlayersInfo>,
     mut ticks: ResMut<Ticks>,
     mut commands: Commands,
@@ -21,6 +22,10 @@ pub fn downstream_reader(
     for event in reader.iter() {
         match &event.data {
             DownstreamData::Startup(startup) => {
+                if !matches!(*state, GameState::Lobby) {
+                    panic!("Startup event while not in lobby");
+                }
+                *state = GameState::Game;
                 players_info.vec.clear();
                 for (id, uuid) in startup.iter().enumerate() {
                     let entity = commands
@@ -34,6 +39,9 @@ pub fn downstream_reader(
                 }
             }
             DownstreamData::Tick(tick) => {
+                if !matches!(*state, GameState::Game) {
+                    panic!("Tick event while not in game");
+                }
                 ticks.vec.push(tick.clone());
             }
         };

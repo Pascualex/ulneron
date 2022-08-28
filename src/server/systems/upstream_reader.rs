@@ -14,7 +14,7 @@ pub fn upstream_reader(
     for event in reader.iter() {
         match &event.data {
             UpstreamData::Join(uuid) => {
-                if !state.ready && event.id == players_info.vec.len() {
+                if matches!(*state, GameState::Lobby) && event.id == players_info.vec.len() {
                     players_info.vec.push(PlayerInfo::new(*uuid));
                 }
             }

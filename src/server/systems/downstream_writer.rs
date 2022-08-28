@@ -10,16 +10,15 @@ pub fn downstream_writer(
     players_info: Res<PlayersInfo>,
     mut writer: EventWriter<DownstreamEvent>,
 ) {
-    if !state.ready {
-        return;
-    }
-    if !state.started {
+    if matches!(*state, GameState::Ready) {
         let startup = players_info.vec.iter().map(|i| i.uuid).collect();
         let data = DownstreamData::Startup(startup);
         writer.send(DownstreamEvent::new(data));
-        state.started = true;
+        *state = GameState::Game;
     }
-    let tick = players_info.vec.iter().map(|i| i.action.clone()).collect();
-    let data = DownstreamData::Tick(tick);
-    writer.send(DownstreamEvent::new(data));
+    if matches!(*state, GameState::Game) {
+        let tick = players_info.vec.iter().map(|i| i.action.clone()).collect();
+        let data = DownstreamData::Tick(tick);
+        writer.send(DownstreamEvent::new(data));
+    }
 }

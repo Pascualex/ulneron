@@ -5,7 +5,7 @@ use crate::client::game::{
     resources::{PlayersInfo, Ticks},
 };
 
-pub fn movement_controller(
+pub fn movement_action(
     ticks: Res<Ticks>,
     players_info: Res<PlayersInfo>,
     mut query: Query<&mut Velocity, With<Player>>,

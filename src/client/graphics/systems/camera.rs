@@ -1,15 +1,15 @@
 use bevy::prelude::*;
 
-use crate::client::game::resources::{LocalPlayer, PlayersInfo};
+use crate::client::{controller::resources::ControllerInfo, game::resources::PlayersInfo};
 
 pub fn camera(
-    local_player: Res<LocalPlayer>,
+    controller_info: Res<ControllerInfo>,
     players_info: Res<PlayersInfo>,
     player_query: Query<&Transform, Without<Camera>>,
     mut camera_query: Query<&mut Transform, With<Camera>>,
 ) {
-    let local_uuid = local_player.uuid;
-    if let Some(player_info) = players_info.vec.iter().find(|i| i.uuid == local_uuid) {
+    let controller_uuid = controller_info.uuid;
+    if let Some(player_info) = players_info.vec.iter().find(|i| i.uuid == controller_uuid) {
         let player_transform = player_query.get(player_info.entity).unwrap();
         let mut camera_transform = camera_query.single_mut();
         let position = player_transform.translation;
