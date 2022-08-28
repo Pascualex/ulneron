@@ -1,11 +1,9 @@
-use crate::protocol::data::Tick;
+use serde::{Deserialize, Serialize};
 
-pub struct DownstreamEvent {
-    pub tick: Tick,
-}
+use crate::protocol::data::{Startup, Tick};
 
-impl DownstreamEvent {
-    pub fn new(tick: Tick) -> Self {
-        Self { tick }
-    }
+#[derive(Clone, Serialize, Deserialize)]
+pub enum DownstreamEvent {
+    Startup(Startup),
+    Tick(Tick),
 }

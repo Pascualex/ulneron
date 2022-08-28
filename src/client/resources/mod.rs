@@ -1,7 +1,7 @@
 pub use local_player::LocalPlayer;
-pub use player_entities::PlayerEntities;
+pub use players_info::{PlayerInfo, PlayersInfo};
 pub use ticks::Ticks;
 
 mod local_player;
-mod player_entities;
+mod players_info;
 mod ticks;

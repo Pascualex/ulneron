@@ -1,15 +1,25 @@
 use bevy::prelude::*;
 
 use crate::{
-    client::resources::LocalPlayer,
-    protocol::{data::Action, events::UpstreamEvent},
+    client::resources::{LocalPlayer, PlayersInfo},
+    protocol::{
+        data::Action,
+        events::{UpstreamData, UpstreamEvent},
+    },
 };
 
 pub fn upstream_writer(
-    input: Res<Input<KeyCode>>,
     local_player: Res<LocalPlayer>,
+    players_info: Res<PlayersInfo>,
+    input: Res<Input<KeyCode>>,
     mut writer: EventWriter<UpstreamEvent>,
 ) {
+    if players_info.vec.is_empty() {
+        let data = UpstreamData::Join(local_player.uuid);
+        writer.send(UpstreamEvent::new_local(data));
+        return;
+    }
+
     let mut action = Action::new();
 
     if input.pressed(KeyCode::Up) {
@@ -25,5 +35,6 @@ pub fn upstream_writer(
         action.direction.x -= 1.0;
     }
 
-    writer.send(UpstreamEvent::new(local_player.id, action));
+    let data = UpstreamData::Action(action);
+    writer.send(UpstreamEvent::new_local(data));
 }

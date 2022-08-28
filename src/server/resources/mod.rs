@@ -1,5 +1,5 @@
 pub use game_state::GameState;
-pub use tick_builder::TickBuilder;
+pub use players_info::{PlayerInfo, PlayersInfo};
 
 mod game_state;
-mod tick_builder;
+mod players_info;

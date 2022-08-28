@@ -1,21 +1,15 @@
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 
-use crate::protocol::data::Action;
+use crate::protocol::events::UpstreamEvent;
 
 #[derive(Serialize, Deserialize)]
 pub struct UpstreamMessage {
-    pub id: Uuid,
-    pub action: Action,
+    pub event: UpstreamEvent,
     pub rollback: Option<u32>,
 }
 
 impl UpstreamMessage {
-    pub fn new(id: Uuid, action: Action, rollback: Option<u32>) -> Self {
-        Self {
-            id,
-            action,
-            rollback,
-        }
+    pub fn new(event: UpstreamEvent, rollback: Option<u32>) -> Self {
+        Self { event, rollback }
     }
 }

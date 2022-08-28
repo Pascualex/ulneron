@@ -12,7 +12,7 @@ pub fn upstream_reader_sender(
     mut buffer: ResMut<DownstreamBuffer>,
     sender: Res<UdpSocket>,
 ) {
-    if let Some(ev) = reader.iter().last() {
+    if let Some(event) = reader.iter().last() {
         let rollback = match buffer.patience == 0 {
             true => {
                 buffer.patience = 5;
@@ -20,7 +20,7 @@ pub fn upstream_reader_sender(
             }
             false => None,
         };
-        let msg = UpstreamMessage::new(ev.id, ev.action.clone(), rollback);
+        let msg = UpstreamMessage::new(event.clone(), rollback);
         let bytes = bincode::serialize(&msg).unwrap();
         sender.send(&bytes).unwrap();
     }

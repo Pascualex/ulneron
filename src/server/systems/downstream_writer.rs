@@ -2,17 +2,22 @@ use bevy::prelude::*;
 
 use crate::{
     protocol::events::DownstreamEvent,
-    server::resources::{GameState, TickBuilder},
+    server::resources::{GameState, PlayersInfo},
 };
 
 pub fn downstream_writer(
-    builder: Res<TickBuilder>,
-    state: Res<GameState>,
+    mut state: ResMut<GameState>,
+    players_info: Res<PlayersInfo>,
     mut writer: EventWriter<DownstreamEvent>,
 ) {
-    if !state.started {
+    if !state.ready {
         return;
     }
-    let tick = builder.tick.clone();
-    writer.send(DownstreamEvent::new(tick));
+    if !state.started {
+        let startup = players_info.vec.iter().map(|i| i.uuid).collect();
+        writer.send(DownstreamEvent::Startup(startup));
+        state.started = true;
+    }
+    let tick = players_info.vec.iter().map(|i| i.action.clone()).collect();
+    writer.send(DownstreamEvent::Tick(tick));
 }

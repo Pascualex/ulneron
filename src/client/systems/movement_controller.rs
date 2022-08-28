@@ -2,12 +2,12 @@ use bevy::prelude::*;
 
 use crate::client::{
     components::{Player, Velocity},
-    resources::{PlayerEntities, Ticks},
+    resources::{PlayersInfo, Ticks},
 };
 
 pub fn movement_controller(
     ticks: Res<Ticks>,
-    player_entities: Res<PlayerEntities>,
+    players_info: Res<PlayersInfo>,
     mut query: Query<&mut Velocity, With<Player>>,
 ) {
     let tick = match ticks.current() {
@@ -15,8 +15,8 @@ pub fn movement_controller(
         None => return,
     };
 
-    for (id, action) in tick.iter() {
-        let entity = *player_entities.map.get(id).unwrap();
+    for (id, action) in tick.iter().enumerate() {
+        let entity = players_info.vec[id].entity;
         let mut velocity = query.get_mut(entity).unwrap();
         velocity.value = action.direction.normalize_or_zero() * 5.0;
     }

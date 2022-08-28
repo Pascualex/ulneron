@@ -1,11 +1,13 @@
 use uuid::Uuid;
 
 pub struct LocalPlayer {
-    pub id: Uuid,
+    pub uuid: Uuid,
 }
 
 impl Default for LocalPlayer {
     fn default() -> Self {
-        Self { id: Uuid::new_v4() }
+        Self {
+            uuid: Uuid::new_v4(),
+        }
     }
 }

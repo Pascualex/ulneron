@@ -19,8 +19,8 @@ pub fn downstream_receiver(
             true => 5,
             false => buffer.patience.saturating_sub(1),
         };
-        buffer.ticks.insert(msg.sequence_number, msg.tick);
-        while buffer.ticks.contains_key(&buffer.sequence_number) {
+        buffer.events.insert(msg.sequence_number, msg.event);
+        while buffer.events.contains_key(&buffer.sequence_number) {
             buffer.sequence_number += 1;
         }
     }

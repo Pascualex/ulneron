@@ -1,13 +1,12 @@
 use bevy::prelude::*;
-use uuid::Uuid;
 
 #[derive(Component)]
 pub struct Player {
-    pub id: Uuid,
+    pub id: u8,
 }
 
 impl Player {
-    pub fn new(id: Uuid) -> Self {
+    pub fn new(id: u8) -> Self {
         Self { id }
     }
 }
