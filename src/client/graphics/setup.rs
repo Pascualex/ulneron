@@ -30,7 +30,7 @@ pub fn setup(
         ..default()
     });
     commands.spawn_bundle(MaterialMeshBundle {
-        mesh: meshes.add(Mesh::from(shape::Box::new(15.0, 0.1, 15.0))),
+        mesh: meshes.add(Mesh::from(shape::Box::new(15.0, 0.3, 15.0))),
         material: materials.add(StandardMaterial {
             base_color: Color::rgb_u8(46, 204, 113),
             metallic: 0.1,
@@ -38,7 +38,7 @@ pub fn setup(
             reflectance: 0.3,
             ..default()
         }),
-        transform: Transform::from_xyz(0.0, 0.05, 0.0),
+        transform: Transform::from_xyz(0.0, -0.15, 0.0),
         ..default()
     });
 }
