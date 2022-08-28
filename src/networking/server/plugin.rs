@@ -18,7 +18,11 @@ impl Plugin for ServerNetworkingPlugin {
             .init_resource::<Clients>()
             .init_resource::<DownstreamBuffer>()
             .add_system_to_stage(CoreStage::First, upstream_receiver_writer)
-            .add_system_to_stage(CoreStage::Last, downstream_reader)
-            .add_system_to_stage(CoreStage::Last, downstream_sender.after(downstream_reader));
+            .add_system_set_to_stage(
+                CoreStage::Last,
+                SystemSet::new()
+                    .with_system(downstream_reader)
+                    .with_system(downstream_sender.after(downstream_reader)),
+            );
     }
 }

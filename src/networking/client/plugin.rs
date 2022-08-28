@@ -27,10 +27,11 @@ impl Plugin for ClientNetworkingPlugin {
         app.insert_resource(socket)
             .insert_resource([0_u8; BUFFER_SIZE])
             .insert_resource(DownstreamBuffer::new())
-            .add_system_to_stage(CoreStage::First, downstream_receiver)
-            .add_system_to_stage(
+            .add_system_set_to_stage(
                 CoreStage::First,
-                downstream_writer.after(downstream_receiver),
+                SystemSet::new()
+                    .with_system(downstream_receiver)
+                    .with_system(downstream_writer.after(downstream_receiver)),
             )
             .add_system_to_stage(CoreStage::Last, upstream_reader_sender);
     }

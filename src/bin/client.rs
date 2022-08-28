@@ -17,11 +17,11 @@ fn main() {
     };
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(ClientControllerPlugin)
+        .add_plugin(ProtocolPlugin)
         .add_plugin(ClientGamePlugin)
+        .add_plugin(ClientControllerPlugin)
         .add_plugin(ClientGraphicsPlugin)
         .add_plugin(ClientNetworkingPlugin::new(server_address))
-        .add_plugin(ProtocolPlugin)
         .add_system(close_on_esc)
         .run();
 }
