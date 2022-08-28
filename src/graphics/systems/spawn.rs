@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::client::components::{Position, Player};
+use crate::client::components::{Player, Position};
 
 pub fn spawn(
     query: Query<(Entity, Option<&Player>), Added<Position>>,
@@ -16,7 +16,7 @@ pub fn spawn(
                 2 => Color::rgb_u8(155, 89, 182),
                 3 => Color::rgb_u8(52, 73, 94),
                 _ => Color::rgb_u8(241, 196, 15),
-            }
+            },
             None => Color::BLACK,
         };
         commands.entity(entity).insert_bundle(MaterialMeshBundle {
