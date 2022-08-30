@@ -1,7 +1,7 @@
-pub use downstream_reader::downstream_reader;
-pub use downstream_sender::downstream_sender;
-pub use upstream_receiver_writer::upstream_receiver_writer;
+pub use connection_listener::connection_listener;
+pub use downstream_pipe::downstream_pipe;
+pub use upstream_pipe::upstream_pipe;
 
-mod downstream_reader;
-mod downstream_sender;
-mod upstream_receiver_writer;
+mod connection_listener;
+mod downstream_pipe;
+mod upstream_pipe;

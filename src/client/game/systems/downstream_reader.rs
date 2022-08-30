@@ -26,7 +26,7 @@ pub fn downstream_reader(
             }
             DownstreamData::Startup(startup) => {
                 if state.started {
-                    panic!("Startup event while in game");
+                    panic!("Received startup event while in game");
                 }
                 state.started = true;
                 players_info.uuids = startup.clone();
@@ -43,7 +43,7 @@ pub fn downstream_reader(
             }
             DownstreamData::Tick(tick) => {
                 if !state.started {
-                    panic!("Tick event while not in game");
+                    panic!("Received tick event while not in game");
                 }
                 ticks.vec.push(tick.clone());
             }
