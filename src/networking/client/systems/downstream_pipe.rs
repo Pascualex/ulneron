@@ -3,14 +3,18 @@ use std::{io::Read, net::TcpStream};
 use bevy::prelude::*;
 
 use crate::{
-    protocol::{events::DownstreamEvent, messages::DownstreamMessage},
+    protocol::{
+        events::{GameEvent, LobbyEvent},
+        messages::DownstreamMessage,
+    },
     BUFFER_SIZE,
 };
 
 pub fn downstream_pipe(
     mut receiver: ResMut<TcpStream>,
     mut bytes: ResMut<[u8; BUFFER_SIZE]>,
-    mut writer: EventWriter<DownstreamEvent>,
+    mut lobby_writer: EventWriter<LobbyEvent>,
+    mut game_writer: EventWriter<GameEvent>,
 ) {
     let bytes = bytes.as_mut();
     while let Ok(size) = receiver.read(bytes) {
@@ -18,6 +22,9 @@ pub fn downstream_pipe(
             break;
         }
         let msg: DownstreamMessage = bincode::deserialize(bytes).unwrap();
-        writer.send(DownstreamEvent::new(msg.data));
+        match msg {
+            DownstreamMessage::Lobby(ev) => lobby_writer.send(ev),
+            DownstreamMessage::Game(ev) => game_writer.send(ev),
+        }
     }
 }

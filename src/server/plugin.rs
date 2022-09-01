@@ -15,12 +15,12 @@ impl Plugin for ServerPlugin {
                 CoreStage::Update,
                 SystemSet::new()
                     .with_system(game_start)
-                    .with_system(upstream_reader.after(game_start)),
+                    .with_system(controller.after(game_start)),
             )
             .add_system_set(
                 SystemSet::new()
                     .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))
-                    .with_system(downstream_writer.after(upstream_reader)),
+                    .with_system(tick.after(controller)),
             );
     }
 }

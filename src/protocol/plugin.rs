@@ -11,8 +11,9 @@ pub enum ProtocolStage {
 
 impl Plugin for ProtocolPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<UpstreamEvent>()
-            .add_event::<DownstreamEvent>()
+        app.add_event::<ControllerEvent>()
+            .add_event::<LobbyEvent>()
+            .add_event::<GameEvent>()
             .add_stage_after(
                 CoreStage::Update,
                 ProtocolStage::GraphicsUpdate,

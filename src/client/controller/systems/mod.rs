@@ -1,7 +1,5 @@
-pub use input_reader::input_reader;
-pub use join_detection::join_detection;
-pub use upstream_writer::upstream_writer;
+pub use action::action_writer;
+pub use input::input;
 
-mod input_reader;
-mod join_detection;
-mod upstream_writer;
+mod action;
+mod input;

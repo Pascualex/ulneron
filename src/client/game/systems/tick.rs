@@ -5,11 +5,11 @@ use crate::{
         components::{Player, Position, Velocity},
         resources::{GameState, PlayersInfo, Ticks},
     },
-    protocol::{data::DownstreamData, events::DownstreamEvent},
+    protocol::events::GameEvent,
 };
 
-pub fn downstream_reader(
-    mut reader: EventReader<DownstreamEvent>,
+pub fn tick(
+    mut reader: EventReader<GameEvent>,
     mut state: ResMut<GameState>,
     mut players_info: ResMut<PlayersInfo>,
     mut ticks: ResMut<Ticks>,
@@ -20,18 +20,14 @@ pub fn downstream_reader(
     }
 
     for event in reader.iter() {
-        match &event.data {
-            DownstreamData::Lobby(lobby) => {
-                players_info.uuids = lobby.clone();
-            }
-            DownstreamData::Startup(startup) => {
+        match &event {
+            GameEvent::Startup(startup) => {
                 if state.started {
                     panic!("Received startup event while in game");
                 }
                 state.started = true;
-                players_info.uuids = startup.clone();
-                players_info.entities.clear();
-                for (id, _) in startup.iter().enumerate() {
+                for (id, uuid) in startup.uuids.iter().enumerate() {
+                    players_info.uuids.push(*uuid);
                     let entity = commands
                         .spawn()
                         .insert(Position::from_xy(0.0, 0.0))
@@ -41,7 +37,7 @@ pub fn downstream_reader(
                     players_info.entities.push(entity);
                 }
             }
-            DownstreamData::Tick(tick) => {
+            GameEvent::Tick(tick) => {
                 if !state.started {
                     panic!("Received tick event while not in game");
                 }

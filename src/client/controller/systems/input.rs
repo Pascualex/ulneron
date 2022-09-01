@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::client::controller::resources::ActionBuilder;
 
-pub fn input_reader(input: Res<Input<KeyCode>>, mut builder: ResMut<ActionBuilder>) {
+pub fn input(input: Res<Input<KeyCode>>, mut builder: ResMut<ActionBuilder>) {
     let mut direction = Vec2::ZERO;
     if input.pressed(KeyCode::Up) {
         direction.y += 1.0;

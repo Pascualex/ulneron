@@ -1,10 +1,9 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::data::{Lobby, Startup, Tick};
+use crate::protocol::data::{Startup, Tick};
 
 #[derive(Clone, Serialize, Deserialize)]
-pub enum DownstreamData {
-    Lobby(Lobby),
+pub enum GameEvent {
     Startup(Startup),
     Tick(Tick),
 }

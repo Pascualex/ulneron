@@ -1,14 +1,9 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::data::DownstreamData;
+use crate::protocol::events::{GameEvent, LobbyEvent};
 
 #[derive(Serialize, Deserialize)]
-pub struct DownstreamMessage {
-    pub data: DownstreamData,
-}
-
-impl DownstreamMessage {
-    pub fn new(data: DownstreamData) -> Self {
-        Self { data }
-    }
+pub enum DownstreamMessage {
+    Lobby(LobbyEvent),
+    Game(GameEvent),
 }

@@ -1,7 +1,7 @@
-pub use downstream_writer::downstream_writer;
+pub use tick::tick;
 pub use game_start::game_start;
-pub use upstream_reader::upstream_reader;
+pub use controller::controller;
 
-mod downstream_writer;
+mod tick;
 mod game_start;
-mod upstream_reader;
+mod controller;
