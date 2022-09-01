@@ -2,7 +2,7 @@ use std::net::{TcpListener, TcpStream};
 
 use bevy::prelude::*;
 
-use crate::{networking::server::systems::*, BUFFER_SIZE};
+use crate::{server::networking::systems::*, BUFFER_SIZE};
 
 pub struct ServerNetworkingPlugin;
 

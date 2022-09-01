@@ -1,4 +1,4 @@
-pub use plugin::ClientLobbyPlugin;
+pub use plugin::ClientUiPlugin;
 
 mod plugin;
 mod setup;

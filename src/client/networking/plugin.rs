@@ -2,7 +2,7 @@ use std::net::TcpStream;
 
 use bevy::prelude::*;
 
-use crate::{networking::client::systems::*, BUFFER_SIZE};
+use crate::{client::networking::systems::*, BUFFER_SIZE};
 
 pub struct ClientNetworkingPlugin {
     server_address: String,

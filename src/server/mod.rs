@@ -1,5 +1,4 @@
-pub use plugin::ServerPlugin;
-
-mod plugin;
-mod resources;
-mod systems;
+pub mod controller;
+pub mod game;
+pub mod lobby;
+pub mod networking;
