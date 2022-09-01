@@ -4,6 +4,7 @@
         "**/target": true,
     },
     "cSpell.words": [
+        "addrs",
         "bincode",
         "deque",
         "fastrand",

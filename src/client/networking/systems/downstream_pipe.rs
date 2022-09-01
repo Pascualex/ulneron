@@ -1,8 +1,9 @@
-use std::{io::Read, net::TcpStream};
+use std::io::Read;
 
 use bevy::prelude::*;
 
 use crate::{
+    client::networking::resources::Connection,
     protocol::{
         events::{GameEvent, LobbyEvent},
         messages::DownstreamMessage,
@@ -11,13 +12,13 @@ use crate::{
 };
 
 pub fn downstream_pipe(
-    mut receiver: ResMut<TcpStream>,
+    mut connection: ResMut<Connection>,
     mut bytes: ResMut<[u8; BUFFER_SIZE]>,
     mut lobby_writer: EventWriter<LobbyEvent>,
     mut game_writer: EventWriter<GameEvent>,
 ) {
     let bytes = bytes.as_mut();
-    while let Ok(size) = receiver.read(bytes) {
+    while let Ok(size) = connection.stream.read(bytes) {
         if size == 0 {
             break;
         }

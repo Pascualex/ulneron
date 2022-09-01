@@ -1,9 +1,18 @@
 use bevy::prelude::*;
 
-use crate::client::game::components::{Player, Position};
+use crate::client::{
+    controller::resources::ControllerInfo,
+    game::{
+        components::{Player, Position},
+        resources::PlayersInfo,
+    },
+    graphics::components::LocalPlayer,
+};
 
 pub fn spawn(
     query: Query<(Entity, Option<&Player>), Added<Position>>,
+    players_info: Res<PlayersInfo>,
+    controller_info: Res<ControllerInfo>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -35,5 +44,11 @@ pub fn spawn(
             transform: Transform::default(),
             ..default()
         });
+        if let Some(player) = player {
+            let uuid = players_info.uuids[player.id];
+            if uuid == controller_info.uuid {
+                commands.entity(entity).insert(LocalPlayer);
+            }
+        }
     }
 }

@@ -1,3 +1,5 @@
+pub mod components;
+
 pub use plugin::ClientGraphicsPlugin;
 
 mod plugin;
