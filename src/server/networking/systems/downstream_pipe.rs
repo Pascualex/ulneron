@@ -2,14 +2,21 @@ use std::{io::Write, net::TcpStream};
 
 use bevy::prelude::*;
 
-use crate::protocol::{events::GameEvent, messages::DownstreamMessage};
+use crate::protocol::{
+    events::{GameEvent, LobbyEvent},
+    messages::DownstreamMessage,
+};
 
-pub fn downstream_pipe(mut reader: EventReader<GameEvent>, mut streams: ResMut<Vec<TcpStream>>) {
-    for event in reader.iter() {
-        for stream in streams.iter_mut() {
-            let msg = DownstreamMessage::Game(event.clone());
-            let bytes = bincode::serialize(&msg).unwrap();
-            stream.write_all(&bytes).ok();
-        }
+pub fn downstream_pipe(
+    mut lobby_reader: EventReader<LobbyEvent>,
+    mut game_reader: EventReader<GameEvent>,
+    mut streams: ResMut<Vec<TcpStream>>,
+) {
+    let lobby_events = lobby_reader.iter().cloned().collect();
+    let game_events = game_reader.iter().cloned().collect();
+    let msg = DownstreamMessage::new(lobby_events, game_events);
+    let bytes = bincode::serialize(&msg).unwrap();
+    for stream in streams.iter_mut() {
+        stream.write_all(&bytes).ok();
     }
 }

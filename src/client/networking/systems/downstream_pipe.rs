@@ -23,9 +23,11 @@ pub fn downstream_pipe(
             break;
         }
         let msg: DownstreamMessage = bincode::deserialize(bytes).unwrap();
-        match msg {
-            DownstreamMessage::Lobby(ev) => lobby_writer.send(ev),
-            DownstreamMessage::Game(ev) => game_writer.send(ev),
+        for event in msg.lobby_events {
+            lobby_writer.send(event);
+        }
+        for event in msg.game_events {
+            game_writer.send(event);
         }
     }
 }

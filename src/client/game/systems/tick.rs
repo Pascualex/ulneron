@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::{
     client::game::{
         components::{Player, Position, Velocity},
-        resources::{GameState, PlayersInfo, Ticks},
+        resources::{GameState, PlayerEntities, Ticks},
     },
     protocol::events::GameEvent,
 };
@@ -11,7 +11,7 @@ use crate::{
 pub fn tick(
     mut reader: EventReader<GameEvent>,
     mut state: ResMut<GameState>,
-    mut players_info: ResMut<PlayersInfo>,
+    mut players_entities: ResMut<PlayerEntities>,
     mut ticks: ResMut<Ticks>,
     mut commands: Commands,
 ) {
@@ -26,15 +26,14 @@ pub fn tick(
                     panic!("Received startup event while in game");
                 }
                 state.started = true;
-                for (id, uuid) in startup.uuids.iter().enumerate() {
-                    players_info.uuids.push(*uuid);
+                for id in 0..startup.uuids.len() {
                     let entity = commands
                         .spawn()
                         .insert(Position::from_xy(0.0, 0.0))
                         .insert(Velocity::from_xy(0.0, 0.0))
                         .insert(Player::new(id))
                         .id();
-                    players_info.entities.push(entity);
+                    players_entities.vec.push(entity);
                 }
             }
             GameEvent::Tick(tick) => {

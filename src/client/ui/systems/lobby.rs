@@ -1,8 +1,7 @@
 use bevy::prelude::*;
 
 use crate::client::{
-    game::resources::{GameState, PlayersInfo},
-    networking::resources::Connection,
+    game::resources::GameState, lobby::resources::PlayersInfo, networking::resources::Connection,
 };
 
 pub fn lobby(

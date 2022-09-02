@@ -1,7 +1,7 @@
 pub use game_state::GameState;
-pub use players_info::PlayersInfo;
+pub use player_entities::PlayerEntities;
 pub use ticks::Ticks;
 
 mod game_state;
-mod players_info;
+mod player_entities;
 mod ticks;

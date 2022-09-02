@@ -2,11 +2,9 @@ use bevy::prelude::*;
 
 use crate::client::{
     controller::resources::ControllerInfo,
-    game::{
-        components::{Player, Position},
-        resources::PlayersInfo,
-    },
+    game::components::{Player, Position},
     graphics::components::LocalPlayer,
+    lobby::resources::PlayersInfo,
 };
 
 pub fn spawn(
