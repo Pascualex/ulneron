@@ -2,12 +2,16 @@ use bevy::prelude::*;
 
 use crate::{
     protocol::{data::Lobby, events::LobbyDownstreamEvent},
-    server::{controller::resources::PlayersInfo, lobby::resources::LobbyState},
+    server::{
+        controller::resources::ControllersInfo,
+        lobby::resources::{LobbyState, PlayersInfo},
+    },
 };
 
 pub fn update(
     mut state: ResMut<LobbyState>,
-    players_info: Res<PlayersInfo>,
+    controllers_info: Res<ControllersInfo>,
+    mut players_info: ResMut<PlayersInfo>,
     mut lobby_writer: EventWriter<LobbyDownstreamEvent>,
 ) {
     let locked = match *state {
@@ -18,7 +22,7 @@ pub fn update(
         }
         LobbyState::Locked => return,
     };
-    let uuids = players_info.vec.iter().map(|i| i.uuid).collect();
-    let lobby = Lobby::new(uuids);
+    players_info.uuids = controllers_info.vec.iter().map(|i| i.uuid).collect();
+    let lobby = Lobby::new(players_info.uuids.clone());
     lobby_writer.send(LobbyDownstreamEvent::new(lobby, locked));
 }

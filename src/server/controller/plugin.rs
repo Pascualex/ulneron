@@ -6,7 +6,7 @@ pub struct ServerControllerPlugin;
 
 impl Plugin for ServerControllerPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<PlayersInfo>()
+        app.init_resource::<ControllersInfo>()
             .add_system_to_stage(CoreStage::Update, controller);
     }
 }

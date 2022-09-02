@@ -9,6 +9,6 @@ pub fn setup(
     controller_info: Res<ControllerInfo>,
     mut writer: EventWriter<ControllerUpstreamEvent>,
 ) {
-    let data = ControllerEventData::Join(controller_info.uuid);
+    let data = ControllerEventData::Info(controller_info.uuid);
     writer.send(ControllerUpstreamEvent::new_local(data));
 }

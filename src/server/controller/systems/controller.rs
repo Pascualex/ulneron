@@ -2,21 +2,21 @@ use bevy::prelude::*;
 
 use crate::{
     protocol::events::{ControllerEventData, ControllerUpstreamEvent},
-    server::controller::resources::{PlayerInfo, PlayersInfo},
+    server::controller::resources::{ControllerInfo, ControllersInfo},
 };
 
 pub fn controller(
     mut reader: EventReader<ControllerUpstreamEvent>,
-    mut players_info: ResMut<PlayersInfo>,
+    mut controllers_info: ResMut<ControllersInfo>,
 ) {
     for event in reader.iter() {
         match &event.data {
-            ControllerEventData::Join(uuid) => {
-                players_info.vec.push(PlayerInfo::new(*uuid));
+            ControllerEventData::Info(uuid) => {
+                controllers_info.vec.push(ControllerInfo::new(*uuid));
             }
             ControllerEventData::Action(action) => {
-                if event.id < players_info.vec.len() {
-                    players_info.vec[event.id].action = action.clone();
+                if event.id < controllers_info.vec.len() {
+                    controllers_info.vec[event.id].action = action.clone();
                 }
             }
         }

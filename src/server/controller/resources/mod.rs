@@ -1,3 +1,3 @@
-pub use players_info::{PlayerInfo, PlayersInfo};
+pub use controllers_info::{ControllerInfo, ControllersInfo};
 
-mod players_info;
+mod controllers_info;

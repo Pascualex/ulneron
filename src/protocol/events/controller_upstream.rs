@@ -21,6 +21,6 @@ impl ControllerUpstreamEvent {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub enum ControllerEventData {
-    Join(Uuid),
+    Info(Uuid),
     Action(Action),
 }

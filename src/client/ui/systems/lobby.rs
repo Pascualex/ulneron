@@ -15,10 +15,12 @@ pub fn lobby(
     text.sections[0].value = match *state {
         LobbyState::Unlocked => match connection {
             Some(_) => match players_info.uuids.len() {
+                0 => "Connecting".to_string(),
                 1 => "Connected\n1 player".to_string(),
                 p => format!("Connected\n{} players", p),
             },
             None => match players_info.uuids.len() {
+                0 => "Starting".to_string(),
                 1 => "Hosting\n1 player".to_string(),
                 p => format!("Hosting\n{} players", p),
             },
