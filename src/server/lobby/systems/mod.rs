@@ -1,3 +1,5 @@
-pub use tick::tick;
+pub use lock::lock;
+pub use update::update;
 
-mod tick;
+mod lock;
+mod update;

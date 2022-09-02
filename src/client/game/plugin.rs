@@ -6,10 +6,15 @@ pub struct ClientGamePlugin;
 
 impl Plugin for ClientGamePlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<GameState>()
+        app.insert_resource(GameState::Waiting)
             .init_resource::<PlayerEntities>()
             .init_resource::<Ticks>()
-            .add_system_to_stage(CoreStage::PreUpdate, tick)
+            .add_system_set_to_stage(
+                CoreStage::PreUpdate,
+                SystemSet::new()
+                    .with_system(tick)
+                    .with_system(initialization.after(tick)),
+            )
             .add_system_set_to_stage(
                 CoreStage::Update,
                 SystemSet::new()

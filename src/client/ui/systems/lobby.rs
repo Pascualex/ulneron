@@ -1,18 +1,19 @@
 use bevy::prelude::*;
 
 use crate::client::{
-    game::resources::GameState, lobby::resources::PlayersInfo, networking::resources::Connection,
+    lobby::resources::{LobbyState, PlayersInfo},
+    networking::resources::Connection,
 };
 
 pub fn lobby(
-    game_state: Res<GameState>,
+    state: Res<LobbyState>,
     connection: Option<Res<Connection>>,
     players_info: Res<PlayersInfo>,
     mut query: Query<&mut Text>,
 ) {
     let mut text = query.single_mut();
-    text.sections[0].value = match game_state.started {
-        false => match connection {
+    text.sections[0].value = match *state {
+        LobbyState::Unlocked => match connection {
             Some(_) => match players_info.uuids.len() {
                 1 => "Connected\n1 player".to_string(),
                 p => format!("Connected\n{} players", p),
@@ -22,6 +23,6 @@ pub fn lobby(
                 p => format!("Hosting\n{} players", p),
             },
         },
-        true => "".to_string(),
+        LobbyState::Locked => "".to_string(),
     };
 }

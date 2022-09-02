@@ -9,7 +9,7 @@ use crate::{
 };
 
 pub fn movement(ticks: Res<Ticks>, mut query: Query<(&mut Position, &Velocity)>) {
-    if ticks.is_empty() {
+    if ticks.current.is_none() {
         return;
     }
 

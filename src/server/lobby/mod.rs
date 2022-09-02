@@ -1,3 +1,5 @@
+pub mod resources;
+
 pub use plugin::ServerLobbyPlugin;
 
 mod plugin;
