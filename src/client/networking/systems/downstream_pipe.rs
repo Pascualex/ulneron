@@ -5,7 +5,7 @@ use bevy::prelude::*;
 use crate::{
     client::networking::resources::Connection,
     protocol::{
-        events::{GameEvent, LobbyEvent},
+        events::{GameDownstreamEvent, LobbyDownstreamEvent},
         messages::DownstreamMessage,
     },
     BUFFER_SIZE,
@@ -14,8 +14,8 @@ use crate::{
 pub fn downstream_pipe(
     mut connection: ResMut<Connection>,
     mut bytes: ResMut<[u8; BUFFER_SIZE]>,
-    mut lobby_writer: EventWriter<LobbyEvent>,
-    mut game_writer: EventWriter<GameEvent>,
+    mut lobby_writer: EventWriter<LobbyDownstreamEvent>,
+    mut game_writer: EventWriter<GameDownstreamEvent>,
 ) {
     let bytes = bytes.as_mut();
     while let Ok(size) = connection.stream.read(bytes) {

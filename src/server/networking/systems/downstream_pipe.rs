@@ -3,13 +3,13 @@ use std::{io::Write, net::TcpStream};
 use bevy::prelude::*;
 
 use crate::protocol::{
-    events::{GameEvent, LobbyEvent},
+    events::{GameDownstreamEvent, LobbyDownstreamEvent},
     messages::DownstreamMessage,
 };
 
 pub fn downstream_pipe(
-    mut lobby_reader: EventReader<LobbyEvent>,
-    mut game_reader: EventReader<GameEvent>,
+    mut lobby_reader: EventReader<LobbyDownstreamEvent>,
+    mut game_reader: EventReader<GameDownstreamEvent>,
     mut streams: ResMut<Vec<TcpStream>>,
 ) {
     let lobby_events = lobby_reader.iter().cloned().collect();

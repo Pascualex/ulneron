@@ -4,12 +4,12 @@ use uuid::Uuid;
 use crate::protocol::data::Action;
 
 #[derive(Clone, Serialize, Deserialize)]
-pub struct ControllerEvent {
+pub struct ControllerUpstreamEvent {
     pub id: usize,
     pub data: ControllerEventData,
 }
 
-impl ControllerEvent {
+impl ControllerUpstreamEvent {
     pub fn new(id: usize, data: ControllerEventData) -> Self {
         Self { id, data }
     }

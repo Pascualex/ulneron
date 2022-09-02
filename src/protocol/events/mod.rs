@@ -1,7 +1,7 @@
-pub use controller_event::{ControllerEvent, ControllerEventData};
-pub use game_event::GameEvent;
-pub use lobby_event::LobbyEvent;
+pub use controller_upstream::{ControllerEventData, ControllerUpstreamEvent};
+pub use game_downstream::GameDownstreamEvent;
+pub use lobby_downstream::LobbyDownstreamEvent;
 
-mod controller_event;
-mod game_event;
-mod lobby_event;
+mod controller_upstream;
+mod game_downstream;
+mod lobby_downstream;

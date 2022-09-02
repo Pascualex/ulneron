@@ -3,14 +3,14 @@ use std::{io::Read, net::TcpStream};
 use bevy::prelude::*;
 
 use crate::{
-    protocol::{events::ControllerEvent, messages::UpstreamMessage},
+    protocol::{events::ControllerUpstreamEvent, messages::UpstreamMessage},
     BUFFER_SIZE,
 };
 
 pub fn upstream_pipe(
     mut streams: ResMut<Vec<TcpStream>>,
     mut bytes: ResMut<[u8; BUFFER_SIZE]>,
-    mut writer: EventWriter<ControllerEvent>,
+    mut writer: EventWriter<ControllerUpstreamEvent>,
 ) {
     let bytes = bytes.as_mut();
     for (i, stream) in streams.iter_mut().enumerate() {
@@ -19,7 +19,7 @@ pub fn upstream_pipe(
                 break;
             }
             if let Ok(msg) = bincode::deserialize::<UpstreamMessage>(bytes) {
-                writer.send(ControllerEvent::new(i + 1, msg.data));
+                writer.send(ControllerUpstreamEvent::new(i + 1, msg.data));
             }
         }
     }

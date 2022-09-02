@@ -2,10 +2,13 @@ use bevy::prelude::*;
 
 use crate::{
     client::controller::resources::ControllerInfo,
-    protocol::events::{ControllerEvent, ControllerEventData},
+    protocol::events::{ControllerEventData, ControllerUpstreamEvent},
 };
 
-pub fn setup(controller_info: Res<ControllerInfo>, mut writer: EventWriter<ControllerEvent>) {
+pub fn setup(
+    controller_info: Res<ControllerInfo>,
+    mut writer: EventWriter<ControllerUpstreamEvent>,
+) {
     let data = ControllerEventData::Join(controller_info.uuid);
-    writer.send(ControllerEvent::new_local(data));
+    writer.send(ControllerUpstreamEvent::new_local(data));
 }

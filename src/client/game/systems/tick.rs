@@ -5,11 +5,11 @@ use crate::{
         components::{Player, Position, Velocity},
         resources::{GameState, PlayerEntities, Ticks},
     },
-    protocol::events::GameEvent,
+    protocol::events::GameDownstreamEvent,
 };
 
 pub fn tick(
-    mut reader: EventReader<GameEvent>,
+    mut reader: EventReader<GameDownstreamEvent>,
     mut state: ResMut<GameState>,
     mut players_entities: ResMut<PlayerEntities>,
     mut ticks: ResMut<Ticks>,
@@ -21,7 +21,7 @@ pub fn tick(
 
     for event in reader.iter() {
         match &event {
-            GameEvent::Startup(startup) => {
+            GameDownstreamEvent::Startup(startup) => {
                 if state.started {
                     panic!("Received startup event while in game");
                 }
@@ -36,7 +36,7 @@ pub fn tick(
                     players_entities.vec.push(entity);
                 }
             }
-            GameEvent::Tick(tick) => {
+            GameDownstreamEvent::Tick(tick) => {
                 if !state.started {
                     panic!("Received tick event while not in game");
                 }

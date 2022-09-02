@@ -1,11 +1,14 @@
 use bevy::prelude::*;
 
 use crate::{
-    protocol::events::{ControllerEvent, ControllerEventData},
+    protocol::events::{ControllerEventData, ControllerUpstreamEvent},
     server::controller::resources::{PlayerInfo, PlayersInfo},
 };
 
-pub fn controller(mut reader: EventReader<ControllerEvent>, mut players_info: ResMut<PlayersInfo>) {
+pub fn controller(
+    mut reader: EventReader<ControllerUpstreamEvent>,
+    mut players_info: ResMut<PlayersInfo>,
+) {
     for event in reader.iter() {
         match &event.data {
             ControllerEventData::Join(uuid) => {
