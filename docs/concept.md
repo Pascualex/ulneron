@@ -1,4 +1,4 @@
-# Ulneron game concept
+# Game concept
 
 ## 1. Introduction
 
@@ -8,9 +8,9 @@ Ulneron is a top-down horde survival game set on a hostile alien world where pla
 
 You are in control of several missions set on Ulneron, a planet inhabited by an alien swarm race called Nerons. This planet is filled with a powerful energy that the Nerons use to conceal it and make it almost unreachable. After initial contact, the Empire has determined that it poses an extinction-level threat to humanity and has initiated a crusade to cleanse the planet before the neron horde consumes us all.
 
-The nature of the strange energy used by the Nerons renders our traditional siege strategies useless, as a frontal attack is impossible. However, the relentless research of our scientists could turn their strength to our advantage. Promising experiments show that we could capture this energy and use it to enhance our own troops, and even counter their planetary defenses. So far instability has been a problem and we have lost some of our bravest souls, but scientists have proven that it improves the closer we get to the source.
+The nature of Nerite, the strange energy used by the Nerons, renders our traditional siege strategies useless as a frontal attack is impossible. However, the relentless research of our scientists could turn their strength to our advantage. Promising experiments show that we could capture this energy and use it to enhance our own troops, and even counter their planetary defenses. So far instability has been a problem and we have lost some of our bravest souls, but scientists have proven that it improves the closer we get to the source.
 
-While the bulk of our forces remain in defensive positions to fight the advance of the swarm, we want you to take part in a new program to address the problem at its root. Pushing our technology to its limit we should be able to land a small payload on Ulneron. Once our troops are there, they must inflict as much damage as possible, retrieving the neron energy to us. With enough energy stored bigger payloads will become possible, expanding our potential targets.
+While the bulk of our forces remain in defensive positions to fight the advance of the swarm, we want you to take part in a new program to address the problem at its root. Pushing our technology to its limit we should be able to land a small payload on Ulneron. Once our troops are there, they must inflict as much damage as possible, retrieving the Nerite to us. With enough energy stored bigger payloads will become possible, expanding our potential targets.
 
 Here is where your service to the Empire will take place by ensuring the success of the program through your command. Carve the path to victory by deploying new missions over the achievements of the previous ones. You have complete freedom to manage the payloads sent and to control the operations on the battlefield. Choose your forces, equipment and strategy carefully, and unleash hell on that heretic land.
 
