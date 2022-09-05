@@ -17,7 +17,7 @@ impl Plugin for ProtocolPlugin {
             .add_stage_after(
                 CoreStage::Update,
                 ProtocolStage::GraphicsUpdate,
-                SystemStage::single_threaded(),
+                SystemStage::parallel(),
             );
     }
 }
