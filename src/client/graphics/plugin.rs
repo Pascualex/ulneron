@@ -1,8 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{
-    client::graphics::{resources::*, setup, systems::*},
-};
+use crate::client::graphics::{resources::*, setup, systems::*};
 
 pub struct ClientGraphicsPlugin;
 

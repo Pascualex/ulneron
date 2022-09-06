@@ -9,6 +9,8 @@ impl Plugin for ClientGamePlugin {
         app.insert_resource(GameState::Waiting)
             .init_resource::<PlayerEntities>()
             .init_resource::<Ticks>()
+            .insert_resource(Random::new(0))
+            .insert_resource(Spawner::from_hertz(1.0))
             .add_system_set_to_stage(
                 CoreStage::PreUpdate,
                 SystemSet::new()
@@ -19,7 +21,8 @@ impl Plugin for ClientGamePlugin {
                 CoreStage::Update,
                 SystemSet::new()
                     .with_system(movement)
-                    .with_system(movement_action.after(movement)),
+                    .with_system(movement_action.after(movement))
+                    .with_system(spawn.after(movement)),
             );
     }
 }

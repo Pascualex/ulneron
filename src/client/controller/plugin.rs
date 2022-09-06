@@ -2,7 +2,7 @@ use bevy::{prelude::*, time::FixedTimestep};
 
 use crate::{
     client::controller::{events::*, resources::*, setup, systems::*},
-    TIME_STEP,
+    TICK_STEP,
 };
 
 pub struct ClientControllerPlugin;
@@ -16,7 +16,7 @@ impl Plugin for ClientControllerPlugin {
             .add_system_to_stage(CoreStage::Update, input)
             .add_system_to_stage(
                 CoreStage::PostUpdate,
-                action_writer.with_run_criteria(FixedTimestep::step(TIME_STEP as f64)),
+                action_writer.with_run_criteria(FixedTimestep::step(TICK_STEP as f64)),
             );
     }
 }

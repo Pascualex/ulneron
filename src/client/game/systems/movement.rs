@@ -5,7 +5,7 @@ use crate::{
         components::{Position, Velocity},
         resources::Ticks,
     },
-    TIME_STEP,
+    TICK_STEP,
 };
 
 pub fn movement(ticks: Res<Ticks>, mut query: Query<(&mut Position, &Velocity)>) {
@@ -14,6 +14,6 @@ pub fn movement(ticks: Res<Ticks>, mut query: Query<(&mut Position, &Velocity)>)
     }
 
     for (mut position, velocity) in query.iter_mut() {
-        position.value += velocity.value * TIME_STEP;
+        position.value += velocity.value * TICK_STEP;
     }
 }

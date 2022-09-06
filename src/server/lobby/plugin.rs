@@ -2,7 +2,7 @@ use bevy::{prelude::*, time::FixedTimestep};
 
 use crate::{
     server::lobby::{events::*, resources::*, systems::*},
-    TIME_STEP,
+    TICK_STEP,
 };
 
 pub struct ServerLobbyPlugin;
@@ -15,7 +15,7 @@ impl Plugin for ServerLobbyPlugin {
             .add_system_to_stage(CoreStage::Update, lock)
             .add_system_to_stage(
                 CoreStage::Update,
-                update.with_run_criteria(FixedTimestep::step(TIME_STEP as f64)),
+                update.with_run_criteria(FixedTimestep::step(TICK_STEP as f64)),
             );
     }
 }
