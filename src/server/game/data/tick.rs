@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::data::Action;
+use crate::client::controller::data::Action;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Tick {

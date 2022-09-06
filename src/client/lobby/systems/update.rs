@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     client::lobby::resources::{LobbyState, PlayersInfo},
-    protocol::events::LobbyDownstreamEvent,
+    server::lobby::events::LobbyDownstreamEvent,
 };
 
 pub fn update(

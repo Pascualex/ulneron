@@ -1,7 +1,7 @@
 use bevy::{prelude::*, time::FixedTimestep};
 
 use crate::{
-    server::lobby::{resources::*, systems::*},
+    server::lobby::{events::*, resources::*, systems::*},
     TIME_STEP,
 };
 
@@ -11,6 +11,7 @@ impl Plugin for ServerLobbyPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(LobbyState::Unlocked)
             .init_resource::<PlayersInfo>()
+            .add_event::<LobbyDownstreamEvent>()
             .add_system_to_stage(CoreStage::Update, lock)
             .add_system_to_stage(
                 CoreStage::Update,

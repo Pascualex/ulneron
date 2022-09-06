@@ -2,9 +2,9 @@ use std::{io::Write, net::TcpStream};
 
 use bevy::prelude::*;
 
-use crate::protocol::{
-    events::{GameDownstreamEvent, LobbyDownstreamEvent},
-    messages::DownstreamMessage,
+use crate::server::{
+    game::events::GameDownstreamEvent, lobby::events::LobbyDownstreamEvent,
+    networking::DownstreamMessage,
 };
 
 pub fn downstream_pipe(

@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     client::game::resources::{GameState, Ticks},
-    protocol::events::GameDownstreamEvent,
+    server::game::events::GameDownstreamEvent,
 };
 
 pub fn tick(

@@ -2,7 +2,10 @@ use std::net::{TcpListener, TcpStream};
 
 use bevy::prelude::*;
 
-use crate::{server::networking::systems::*, BUFFER_SIZE};
+use crate::{
+    client::controller::events::ControllerUpstreamEvent, server::networking::systems::*,
+    BUFFER_SIZE,
+};
 
 pub struct ServerNetworkingPlugin;
 
@@ -13,6 +16,7 @@ impl Plugin for ServerNetworkingPlugin {
         app.insert_resource(listener)
             .init_resource::<Vec<TcpStream>>()
             .insert_resource([0_u8; BUFFER_SIZE])
+            .add_event::<ControllerUpstreamEvent>()
             .add_system_set_to_stage(
                 CoreStage::First,
                 SystemSet::new()

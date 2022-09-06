@@ -1,6 +1,6 @@
 use uuid::Uuid;
 
-use crate::protocol::data::Action;
+use crate::client::controller::data::Action;
 
 #[derive(Default)]
 pub struct ControllersInfo {

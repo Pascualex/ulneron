@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::data::Tick;
+use crate::server::game::data::Tick;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct GameDownstreamEvent {

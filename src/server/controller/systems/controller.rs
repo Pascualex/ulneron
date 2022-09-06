@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    protocol::events::{ControllerEventData, ControllerUpstreamEvent},
+    client::controller::events::{ControllerEventData, ControllerUpstreamEvent},
     server::controller::resources::{ControllerInfo, ControllersInfo},
 };
 

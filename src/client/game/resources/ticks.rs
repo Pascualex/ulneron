@@ -1,4 +1,4 @@
-use crate::protocol::data::Tick;
+use crate::server::game::data::Tick;
 
 #[derive(Default)]
 pub struct Ticks {

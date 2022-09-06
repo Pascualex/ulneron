@@ -8,7 +8,6 @@ use ulneron::{
         controller::ClientControllerPlugin, graphics::ClientGraphicsPlugin,
         lobby::ClientLobbyPlugin, networking::ClientNetworkingPlugin, ui::ClientUiPlugin,
     },
-    protocol::ProtocolPlugin,
 };
 
 fn main() {
@@ -19,7 +18,6 @@ fn main() {
     };
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(ProtocolPlugin)
         .add_plugin(ClientLobbyPlugin)
         .add_plugin(ClientGamePlugin)
         .add_plugin(ClientGraphicsPlugin)

@@ -4,9 +4,9 @@ use bevy::prelude::*;
 
 use crate::{
     client::networking::resources::Connection,
-    protocol::{
-        events::{GameDownstreamEvent, LobbyDownstreamEvent},
-        messages::DownstreamMessage,
+    server::{
+        game::events::GameDownstreamEvent, lobby::events::LobbyDownstreamEvent,
+        networking::DownstreamMessage,
     },
     BUFFER_SIZE,
 };

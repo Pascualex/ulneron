@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{
-    client::controller::resources::ControllerInfo,
-    protocol::events::{ControllerEventData, ControllerUpstreamEvent},
+use crate::client::controller::{
+    events::{ControllerEventData, ControllerUpstreamEvent},
+    resources::ControllerInfo,
 };
 
 pub fn setup(

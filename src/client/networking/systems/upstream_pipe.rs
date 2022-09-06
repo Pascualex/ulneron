@@ -2,9 +2,9 @@ use std::io::Write;
 
 use bevy::prelude::*;
 
-use crate::{
-    client::networking::resources::Connection,
-    protocol::{events::ControllerUpstreamEvent, messages::UpstreamMessage},
+use crate::client::{
+    controller::events::ControllerUpstreamEvent,
+    networking::{resources::Connection, UpstreamMessage},
 };
 
 pub fn upstream_pipe(

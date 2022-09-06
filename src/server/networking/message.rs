@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::events::{GameDownstreamEvent, LobbyDownstreamEvent};
+use crate::server::{game::events::GameDownstreamEvent, lobby::events::LobbyDownstreamEvent};
 
 #[derive(Serialize, Deserialize)]
 pub struct DownstreamMessage {

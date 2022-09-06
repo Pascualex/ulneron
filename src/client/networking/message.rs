@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::protocol::events::ControllerEventData;
+use crate::client::controller::events::ControllerEventData;
 
 #[derive(Serialize, Deserialize)]
 pub struct UpstreamMessage {

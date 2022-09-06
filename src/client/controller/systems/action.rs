@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{
-    client::controller::resources::ActionBuilder,
-    protocol::events::{ControllerEventData, ControllerUpstreamEvent},
+use crate::client::controller::{
+    events::{ControllerEventData, ControllerUpstreamEvent},
+    resources::ActionBuilder,
 };
 
 pub fn action_writer(

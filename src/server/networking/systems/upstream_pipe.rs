@@ -3,7 +3,7 @@ use std::{io::Read, net::TcpStream};
 use bevy::prelude::*;
 
 use crate::{
-    protocol::{events::ControllerUpstreamEvent, messages::UpstreamMessage},
+    client::{controller::events::ControllerUpstreamEvent, networking::UpstreamMessage},
     BUFFER_SIZE,
 };
 

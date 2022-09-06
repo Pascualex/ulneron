@@ -1,15 +1,19 @@
 use bevy::prelude::*;
 
 use crate::{
-    protocol::{data::{Tick, Action}, events::GameDownstreamEvent},
-    server::{controller::resources::ControllersInfo, lobby::resources::{LobbyState, PlayersInfo}},
+    client::controller::data::Action,
+    server::{
+        controller::resources::ControllersInfo,
+        game::{data::Tick, events::GameDownstreamEvent},
+        lobby::resources::{LobbyState, PlayersInfo},
+    },
 };
 
 pub fn tick(
     state: ResMut<LobbyState>,
     players_info: Res<PlayersInfo>,
     controllers_info: Res<ControllersInfo>,
-    mut game_writer: EventWriter<GameDownstreamEvent>,
+    mut writer: EventWriter<GameDownstreamEvent>,
 ) {
     if !matches!(*state, LobbyState::Locked) {
         return;
@@ -24,5 +28,5 @@ pub fn tick(
     }
     let tick = Tick::new(actions);
     let event = GameDownstreamEvent::new(tick);
-    game_writer.send(event);
+    writer.send(event);
 }
