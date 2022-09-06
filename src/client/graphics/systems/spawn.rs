@@ -8,14 +8,14 @@ use crate::client::{
 };
 
 pub fn spawn(
-    query: Query<(Entity, Option<&Player>), Added<Position>>,
+    query: Query<(Entity, &Position, Option<&Player>), Added<Position>>,
     players_info: Res<PlayersInfo>,
     controller_info: Res<ControllerInfo>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    for (entity, player) in query.iter() {
+    for (entity, position, player) in query.iter() {
         let color = match player {
             Some(player) => match player.id % 5 {
                 0 => Color::rgb_u8(230, 126, 34),
@@ -39,7 +39,7 @@ pub fn spawn(
                 reflectance: 0.3,
                 ..default()
             }),
-            transform: Transform::default(),
+            transform: Transform::from_xyz(position.value.y, 0.5, position.value.x),
             ..default()
         });
         if let Some(player) = player {
