@@ -10,3 +10,9 @@ rand = "0.8.5"
 rand_chacha = "0.3.1"
 serde = { version = "1.0.143", features = ["derive"] }
 uuid = { version = "1.1.2", features = ["v4", "fast-rng", "macro-diagnostics", "serde"]}
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
