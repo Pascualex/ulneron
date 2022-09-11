@@ -1,10 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{
-    client::game::{
-        components::{Enemy, Player, Position, Velocity},
-        resources::Ticks,
-    },
+use crate::client::game::{
+    components::{Enemy, Player, Position, Velocity},
+    resources::Ticks,
 };
 
 pub fn enemies_movement(

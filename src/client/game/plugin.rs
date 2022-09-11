@@ -10,7 +10,7 @@ impl Plugin for ClientGamePlugin {
             .init_resource::<PlayerEntities>()
             .init_resource::<Ticks>()
             .insert_resource(Random::new(0))
-            .insert_resource(Spawner::from_hertz(1.0))
+            .insert_resource(Spawner::from_hertz(100.0))
             .add_system_set_to_stage(
                 CoreStage::PreUpdate,
                 SystemSet::new()
@@ -23,7 +23,8 @@ impl Plugin for ClientGamePlugin {
                     .with_system(movement)
                     .with_system(enemies_movement.after(movement))
                     .with_system(players_movement.after(movement))
-                    .with_system(spawn.after(movement)),
+                    .with_system(spawn.after(movement))
+                    .with_system(players_attack.after(players_movement)),
             );
     }
 }
