@@ -12,6 +12,9 @@ pub fn downstream_pipe(
     mut game_reader: EventReader<GameDownstreamEvent>,
     mut streams: ResMut<Vec<TcpStream>>,
 ) {
+    if lobby_reader.is_empty() && game_reader.is_empty() {
+        return;
+    }
     let lobby_events = lobby_reader.iter().cloned().collect();
     let game_events = game_reader.iter().cloned().collect();
     let msg = DownstreamMessage::new(lobby_events, game_events);
