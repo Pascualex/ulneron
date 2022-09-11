@@ -21,7 +21,8 @@ impl Plugin for ClientGamePlugin {
                 CoreStage::Update,
                 SystemSet::new()
                     .with_system(movement)
-                    .with_system(movement_action.after(movement))
+                    .with_system(enemies_movement.after(movement))
+                    .with_system(players_movement.after(movement))
                     .with_system(spawn.after(movement)),
             );
     }

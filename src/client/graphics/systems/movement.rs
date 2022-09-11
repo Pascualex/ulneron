@@ -11,8 +11,8 @@ pub fn movement(
 ) {
     for (mut transform, position, velocity) in query.iter_mut() {
         let position = match velocity {
-            Some(velocity) => position.value + velocity.value * tick_delta.delta.as_secs_f32(),
-            None => position.value,
+            Some(velocity) => position.val + velocity.val * tick_delta.delta.as_secs_f32(),
+            None => position.val,
         };
         transform.translation = Vec3::new(position.y, 0.5, position.x);
     }

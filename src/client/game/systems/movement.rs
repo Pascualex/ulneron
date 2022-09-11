@@ -14,6 +14,6 @@ pub fn movement(ticks: Res<Ticks>, mut query: Query<(&mut Position, &Velocity)>)
     }
 
     for (mut position, velocity) in query.iter_mut() {
-        position.value += velocity.value * TICK_STEP;
+        position.val += velocity.val * TICK_STEP;
     }
 }
