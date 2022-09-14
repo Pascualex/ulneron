@@ -23,11 +23,17 @@ pub fn spawn(
 
     spawner.timer.tick(Duration::from_secs_f32(TICK_STEP));
     for _ in 0..spawner.timer.times_finished_this_tick() {
-        let x = random.gen_range(-5.0..=5.0);
-        let y = random.gen_range(-5.0..=5.0);
+        let direction = match (random.gen(), random.gen()) {
+            (true, true) => Vec2::Y,
+            (true, false) => Vec2::X,
+            (false, true) => -Vec2::Y,
+            (false, false) => -Vec2::X,
+        };
+        let offset = Vec2::new(random.gen_range(-1.0..=1.0), random.gen_range(-1.0..=1.0));
+        let position = direction * 30.0 + offset * 10.0;
         commands
             .spawn()
-            .insert(Position::from_xy(x, y))
+            .insert(Position::new(position))
             .insert(Velocity::from_xy(0.0, 0.0))
             .insert(Enemy);
     }

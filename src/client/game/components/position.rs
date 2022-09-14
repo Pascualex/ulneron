@@ -6,9 +6,11 @@ pub struct Position {
 }
 
 impl Position {
+    pub fn new(val: Vec2) -> Self {
+        Self { val }
+    }
+
     pub fn from_xy(x: f32, y: f32) -> Self {
-        Self {
-            val: Vec2::new(x, y),
-        }
+        Self::new(Vec2::new(x, y))
     }
 }
