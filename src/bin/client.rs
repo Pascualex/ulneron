@@ -1,6 +1,10 @@
 use std::env;
 
-use bevy::{prelude::*, window::close_on_esc};
+use bevy::{
+    diagnostic::{EntityCountDiagnosticsPlugin, FrameTimeDiagnosticsPlugin},
+    prelude::*,
+    window::close_on_esc,
+};
 
 use ulneron::{
     client::game::ClientGamePlugin,
@@ -24,6 +28,8 @@ fn main() {
         .add_plugin(ClientNetworkingPlugin::new(server_address))
         .add_plugin(ClientUiPlugin)
         .add_plugin(ClientControllerPlugin)
+        .add_plugin(FrameTimeDiagnosticsPlugin)
+        .add_plugin(EntityCountDiagnosticsPlugin)
         .add_system(close_on_esc)
         .run();
 }

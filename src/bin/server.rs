@@ -1,4 +1,8 @@
-use bevy::{prelude::*, window::close_on_esc};
+use bevy::{
+    diagnostic::{EntityCountDiagnosticsPlugin, FrameTimeDiagnosticsPlugin},
+    prelude::*,
+    window::close_on_esc,
+};
 
 use ulneron::{
     client::game::ClientGamePlugin,
@@ -24,6 +28,8 @@ fn main() {
         .add_plugin(ServerLobbyPlugin)
         .add_plugin(ServerGamePlugin)
         .add_plugin(ServerNetworkingPlugin)
+        .add_plugin(FrameTimeDiagnosticsPlugin)
+        .add_plugin(EntityCountDiagnosticsPlugin)
         .add_system(close_on_esc)
         .run();
 }

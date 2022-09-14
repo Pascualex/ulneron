@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, time::FixedTimestep};
 
 use crate::client::graphics::{resources::*, setup, systems::*};
 
@@ -20,9 +20,11 @@ impl Plugin for ClientGraphicsPlugin {
             )
             .add_system_set_to_stage(
                 CoreStage::Update,
-                SystemSet::new() //
-                    .with_system(spawn)
-                    .with_system(tick_delta),
+                SystemSet::new().with_system(spawn).with_system(tick_delta),
+            )
+            .add_system_to_stage(
+                CoreStage::Update,
+                diagnostics.with_run_criteria(FixedTimestep::step(1.0)),
             )
             .add_system_set_to_stage(
                 ClientGraphicsStage::GraphicsUpdate,
