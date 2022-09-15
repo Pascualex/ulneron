@@ -4,7 +4,7 @@ use bevy::prelude::*;
 
 use crate::{
     client::game::{
-        components::{Enemy, Player, Position, Velocity, Weapons},
+        components::{Enemy, Health, Player, Position, Velocity, Weapons},
         resources::Ticks,
     },
     TICK_STEP,
@@ -12,9 +12,8 @@ use crate::{
 
 pub fn players_attack(
     mut player_query: Query<(&Position, &Velocity, &mut Weapons), With<Player>>,
-    enemy_query: Query<(Entity, &Position), With<Enemy>>,
+    mut enemy_query: Query<(&Position, &mut Health), With<Enemy>>,
     ticks: Res<Ticks>,
-    mut commands: Commands,
 ) {
     if ticks.current.is_none() {
         return;
@@ -32,13 +31,18 @@ pub fn players_attack(
             continue;
         }
         let mut enemy_vec: Vec<_> = enemy_query
-            .iter()
-            .map(|(e, p)| (e, (player_position.val - p.val).length()))
-            .filter(|(_, d)| *d <= player_weapons.range)
+            .iter_mut()
+            .map(|(p, h)| ((player_position.val - p.val).length(), h))
+            .filter(|(d, _)| *d <= player_weapons.range)
             .collect();
-        enemy_vec.sort_by(|(_, d_1), (_, d_2)| d_1.partial_cmp(d_2).unwrap());
-        for (enemy_entity, _) in enemy_vec.iter().take(shot_count as usize) {
-            commands.entity(*enemy_entity).despawn();
+        enemy_vec.sort_by(|(d_1, _), (d_2, _)| d_1.partial_cmp(d_2).unwrap());
+        for _ in 0..shot_count {
+            for (_, enemy_health) in enemy_vec.iter_mut() {
+                if !enemy_health.dead() {
+                    enemy_health.damage(player_weapons.damage);
+                    break;
+                }
+            }
         }
     }
 }

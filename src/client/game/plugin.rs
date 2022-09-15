@@ -25,6 +25,7 @@ impl Plugin for ClientGamePlugin {
                     .with_system(players_movement.after(movement))
                     .with_system(spawn.after(movement))
                     .with_system(players_attack.after(players_movement)),
-            );
+            )
+            .add_system_to_stage(CoreStage::PostUpdate, death);
     }
 }
