@@ -2,8 +2,8 @@ use bevy::prelude::*;
 
 use crate::client::{
     game::{
-        components::{Player, Position, Velocity},
-        resources::{GameState, PlayerEntities},
+        components::{Player, Position, Velocity, Weapons},
+        resources::{GameState, PlayerEntities, Spawner},
     },
     lobby::resources::{LobbyState, PlayersInfo},
 };
@@ -13,6 +13,7 @@ pub fn initialization(
     players_info: Res<PlayersInfo>,
     mut game_state: ResMut<GameState>,
     mut player_entities: ResMut<PlayerEntities>,
+    mut spawner: ResMut<Spawner>,
     mut commands: Commands,
 ) {
     if !matches!(*game_state, GameState::Waiting) {
@@ -27,8 +28,10 @@ pub fn initialization(
             .spawn()
             .insert(Position::from_xy(0.0, 0.0))
             .insert(Velocity::from_xy(0.0, 0.0))
+            .insert(Weapons::from_hertz(120.0, 3.0))
             .insert(Player::new(id))
             .id();
         player_entities.vec.push(entity);
     }
+    spawner.multiplier = players_info.uuids.len() as u32;
 }

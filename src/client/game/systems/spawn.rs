@@ -22,7 +22,8 @@ pub fn spawn(
     }
 
     spawner.timer.tick(Duration::from_secs_f32(TICK_STEP));
-    for _ in 0..spawner.timer.times_finished_this_tick() {
+    let spawn_count = spawner.timer.times_finished_this_tick() * spawner.multiplier;
+    for _ in 0..spawn_count {
         let direction = match (random.gen(), random.gen()) {
             (true, true) => Vec2::Y,
             (true, false) => Vec2::X,
