@@ -22,11 +22,12 @@ impl Plugin for ClientGamePlugin {
                 CoreStage::Update,
                 SystemSet::new()
                     .with_system(movement)
-                    .with_system(enemies_movement.after(movement))
-                    .with_system(players_movement.after(movement))
-                    .with_system(space_partitioner.after(players_movement))
-                    .with_system(players_attack.after(space_partitioner))
-                    .with_system(spawn.after(movement)),
+                    .with_system(players_pathfinder.after(movement))
+                    .with_system(spawn.after(movement))
+                    .with_system(space_partitioner.after(spawn))
+                    .with_system(enemies_pathfinder.after(space_partitioner))
+                    .with_system(agent.after(players_pathfinder).after(enemies_pathfinder))
+                    .with_system(players_attack.after(space_partitioner)),
             )
             .add_system_to_stage(CoreStage::PostUpdate, death);
     }

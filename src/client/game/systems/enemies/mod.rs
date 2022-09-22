@@ -1,3 +1,3 @@
-pub use movement::enemies_movement;
+pub use pathfinder::enemies_pathfinder;
 
-mod movement;
+mod pathfinder;

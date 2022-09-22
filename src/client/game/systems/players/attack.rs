@@ -6,7 +6,7 @@ use kiddo::distance::squared_euclidean;
 use crate::{
     client::game::{
         components::{Enemy, Health, Player, Position, Velocity, Weapons},
-        resources::{Ticks, SpacePartitioner},
+        resources::{SpacePartitioner, Ticks},
     },
     TICK_STEP,
 };

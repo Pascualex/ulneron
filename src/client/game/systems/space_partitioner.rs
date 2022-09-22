@@ -9,6 +9,9 @@ pub fn space_partitioner(
 ) {
     space_partitioner.tree = KdTree::new();
     for (entity, position) in query.iter_mut() {
-        space_partitioner.tree.add(position.val.as_ref(), entity).unwrap();
+        space_partitioner
+            .tree
+            .add(position.val.as_ref(), entity)
+            .unwrap();
     }
 }

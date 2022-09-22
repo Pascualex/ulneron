@@ -1,5 +1,5 @@
 pub use attack::players_attack;
-pub use movement::players_movement;
+pub use pathfinder::players_pathfinder;
 
 mod attack;
-mod movement;
+mod pathfinder;
