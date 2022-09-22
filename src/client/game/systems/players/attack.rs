@@ -25,27 +25,23 @@ pub fn players_attack(
         if player_velocity.val != Vec2::ZERO {
             continue;
         }
-        player_weapons
-            .timer
-            .tick(Duration::from_secs_f32(TICK_STEP));
+        let tick_duration = Duration::from_secs_f32(TICK_STEP);
+        player_weapons.timer.tick(tick_duration);
         let mut shot_count = player_weapons.timer.times_finished_this_tick();
         if shot_count == 0 {
             continue;
         }
-        let tree = &space_partitioner.tree;
+        let enemies = &space_partitioner.enemies;
         let point = player_position.val.as_ref();
         let squared_range = player_weapons.range.powi(2);
-        for (distance, enemy_entity) in tree.iter_nearest(point, &squared_euclidean).unwrap() {
+        for (distance, enemy_entity) in enemies.iter_nearest(point, &squared_euclidean).unwrap() {
             if distance > squared_range {
                 break;
             }
-            let mut enemy_health = match enemy_query.get_mut(*enemy_entity) {
-                Ok((_, enemy_health)) => match enemy_health.dead() {
-                    false => enemy_health,
-                    true => continue,
-                },
-                Err(_) => continue,
-            };
+            let (_, mut enemy_health) = enemy_query.get_mut(*enemy_entity).unwrap();
+            if enemy_health.dead() {
+                continue;
+            }
             enemy_health.damage(player_weapons.damage);
             shot_count -= 1;
             if shot_count == 0 {

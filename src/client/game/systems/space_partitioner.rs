@@ -1,17 +1,27 @@
 use bevy::prelude::*;
-use kiddo::KdTree;
 
-use crate::client::game::{components::Position, resources::SpacePartitioner};
+use crate::client::game::{
+    components::{Agent, Enemy, Player, Position},
+    resources::SpacePartitioner,
+};
 
 pub fn space_partitioner(
-    mut query: Query<(Entity, &Position)>,
+    player_query: Query<(Entity, &Position), With<Player>>,
+    enemy_query: Query<(Entity, &Position), With<Enemy>>,
+    agent_query: Query<(Entity, &Position), With<Agent>>,
     mut space_partitioner: ResMut<SpacePartitioner>,
 ) {
-    space_partitioner.tree = KdTree::new();
-    for (entity, position) in query.iter_mut() {
-        space_partitioner
-            .tree
-            .add(position.val.as_ref(), entity)
-            .unwrap();
+    space_partitioner.reset();
+    for (entity, position) in player_query.iter() {
+        let position = position.val.as_ref();
+        space_partitioner.players.add(position, entity).unwrap();
+    }
+    for (entity, position) in enemy_query.iter() {
+        let position = position.val.as_ref();
+        space_partitioner.enemies.add(position, entity).unwrap();
+    }
+    for (entity, position) in agent_query.iter() {
+        let position = position.val.as_ref();
+        space_partitioner.agents.add(position, entity).unwrap();
     }
 }

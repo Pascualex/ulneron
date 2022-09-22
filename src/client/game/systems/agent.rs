@@ -18,7 +18,7 @@ pub fn agent(
     let mut new_velocities = HashMap::new();
     for (entity, position, _, agent) in query.iter() {
         let nearest = space_partitioner
-            .tree
+            .agents
             .nearest(position.val.as_ref(), 8, &squared_euclidean)
             .unwrap();
         let neighbors = nearest
