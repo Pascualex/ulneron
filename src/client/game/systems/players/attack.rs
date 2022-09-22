@@ -28,22 +28,20 @@ pub fn players_attack(
         let tick_duration = Duration::from_secs_f32(TICK_STEP);
         player_weapons.timer.tick(tick_duration);
         let mut shot_count = player_weapons.timer.times_finished_this_tick();
-        if shot_count == 0 {
-            continue;
-        }
-        let enemies = &space_partitioner.enemies;
-        let point = player_position.val.as_ref();
         let squared_range = player_weapons.range.powi(2);
-        for (distance, enemy_entity) in enemies.iter_nearest(point, &squared_euclidean).unwrap() {
-            if distance > squared_range {
+        for (squared_distance, enemy_entity) in space_partitioner
+            .enemies
+            .iter_nearest(player_position.val.as_ref(), &squared_euclidean)
+            .unwrap()
+        {
+            if squared_distance > squared_range {
                 break;
             }
             let (_, mut enemy_health) = enemy_query.get_mut(*enemy_entity).unwrap();
-            if enemy_health.dead() {
-                continue;
+            while !enemy_health.dead() && shot_count > 0 {
+                enemy_health.damage(player_weapons.damage);
+                shot_count -= 1;
             }
-            enemy_health.damage(player_weapons.damage);
-            shot_count -= 1;
             if shot_count == 0 {
                 break;
             }
