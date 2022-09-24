@@ -1,10 +1,13 @@
 use bevy::{prelude::*, utils::HashMap};
 use kiddo::distance::squared_euclidean;
 
-use crate::client::game::{
-    components::{Agent, Position, Size, Velocity},
-    resources::{SpacePartitioner, Ticks},
-    utils::orca,
+use crate::{
+    client::game::{
+        components::{Agent, Position, Size, Velocity},
+        resources::{SpacePartitioner, Ticks},
+        utils::orca,
+    },
+    TICK_STEP,
 };
 
 pub fn agent(
@@ -31,6 +34,7 @@ pub fn agent(
             size.radius,
             agent.preferred_velocity,
             neighbors,
+            TICK_STEP,
         );
         new_velocities.insert(entity, new_velocity);
     }

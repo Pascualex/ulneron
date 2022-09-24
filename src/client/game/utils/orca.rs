@@ -5,6 +5,7 @@ pub fn orca(
     size: f32,
     preferred_velocity: Vec2,
     neighbors: Vec<(Vec2, f32, Vec2)>,
+    time_step: f32,
 ) -> Vec2 {
     for (neighbor_position, neighbor_size, neighbor_velocity) in neighbors.iter() {
         // construct VO(current|neighbor)
