@@ -1,3 +1,3 @@
-pub use orca::orca;
+pub use orca::{orca, OrcaTransform};
 
 mod orca;

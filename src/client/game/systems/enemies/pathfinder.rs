@@ -20,10 +20,6 @@ pub fn enemies_pathfinder(
             .map(|p| p.val - enemy_position.val)
             .min_by(|d1, d2| d1.length().partial_cmp(&d2.length()).unwrap())
             .unwrap_or(Vec2::ZERO);
-        if direction.length() >= 0.6 {
-            enemy_velocity.preferred_velocity = direction.normalize_or_zero() * 3.0;
-        } else {
-            enemy_velocity.preferred_velocity = Vec2::ZERO;
-        }
+        enemy_velocity.preferred_velocity = direction.normalize_or_zero() * 3.0;
     }
 }

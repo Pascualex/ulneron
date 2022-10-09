@@ -19,19 +19,19 @@ pub fn agent(
         return;
     }
     let mut new_velocities = HashMap::new();
-    for (entity, position, size, _, agent) in query.iter() {
+    for (entity, position, size, velocity, agent) in query.iter() {
         let nearest = space_partitioner
             .agents
-            .nearest(position.val.as_ref(), 8, &squared_euclidean)
+            .nearest(position.val.as_ref(), 9, &squared_euclidean)
             .unwrap();
         let neighbors = nearest
             .into_iter()
+            .filter(|(_, e)| **e != entity)
             .map(|(_, e)| query.get(*e).unwrap())
             .map(|(_, p, s, v, _)| (p.val, s.radius, v.val))
             .collect();
         let new_velocity = orca(
-            position.val,
-            size.radius,
+            (position.val, size.radius, velocity.val),
             agent.preferred_velocity,
             neighbors,
             TICK_STEP,
@@ -39,7 +39,7 @@ pub fn agent(
         new_velocities.insert(entity, new_velocity);
     }
     for (entity, new_velocity) in new_velocities {
-        let (_, _, _, mut velocity, _) = query.get_mut(entity).unwrap();
+        let mut velocity = query.get_mut(entity).unwrap().3;
         velocity.val = new_velocity;
     }
 }
