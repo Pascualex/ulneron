@@ -5,6 +5,7 @@ pub type OrcaTransform = (Vec2, f32, Vec2);
 pub fn orca(
     trans_a: OrcaTransform,
     vel_pref: Vec2,
+    speed_max: f32,
     trans_neighbors: Vec<OrcaTransform>,
     tau: f32,
 ) -> Vec2 {
@@ -12,7 +13,7 @@ pub fn orca(
     for trans_b in trans_neighbors {
         half_planes.push(half_plane(trans_a, trans_b, tau));
     }
-    match closest_point_on_half_planes(&half_planes, vel_pref) {
+    match closest_point_on_half_planes(&half_planes, speed_max, vel_pref) {
         Some(some) => some,
         None => Vec2::ZERO,
     }
@@ -29,6 +30,7 @@ fn half_plane(trans_a: OrcaTransform, trans_b: OrcaTransform, tau: f32) -> HalfP
     let vo_trunc_pos = vo_main_pos / tau;
     let vo_trunc_radius = vo_main_radius / tau;
 
+    // TODO: consider past vo_trunc_pos
     let n = (vel_diff - vo_trunc_pos).normalize();
     let closest_ca = vo_trunc_pos + n * vo_trunc_radius;
     let u = closest_ca - vel_diff;
@@ -36,13 +38,17 @@ fn half_plane(trans_a: OrcaTransform, trans_b: OrcaTransform, tau: f32) -> HalfP
     HalfPlane::new(vel_a + u / 2.0, n)
 }
 
-fn closest_point_on_half_planes(half_planes: &[HalfPlane], optimal_point: Vec2) -> Option<Vec2> {
-    let mut new_point = optimal_point;
+fn closest_point_on_half_planes(
+    half_planes: &[HalfPlane],
+    speed_max: f32,
+    optimal_point: Vec2,
+) -> Option<Vec2> {
+    let mut new_point = optimal_point.clamp_length_max(speed_max);
     for (i, half_plane) in half_planes.iter().enumerate() {
         if half_plane.contains(new_point) {
             continue;
         }
-        let (left, right) = match half_plane.intersect(&half_planes[..i]) {
+        let (left, right) = match half_plane.intersect(speed_max, &half_planes[..i]) {
             Some(some) => some,
             None => return None,
         };
@@ -82,13 +88,22 @@ impl HalfPlane {
         (point - self.point).dot(self.normal) > 0.0
     }
 
-    pub fn intersect(&self, half_planes: &[HalfPlane]) -> Option<(f32, f32)> {
-        let mut left = -f32::INFINITY;
-        let mut right = f32::INFINITY;
-
+    pub fn intersect(&self, speed_max: f32, half_planes: &[HalfPlane]) -> Option<(f32, f32)> {
         let self_dir = Vec2::new(self.normal.y, -self.normal.x);
+        let self_dot = self.point.dot(self_dir);
+        let discrim = self_dot * self_dot + speed_max * speed_max - self.point.length_squared();
+
+        if discrim < 0.0 {
+            return None;
+        }
+
+        let sqrt_discrim = discrim.sqrt();
+        let mut left = -self_dot - sqrt_discrim;
+        let mut right = -self_dot + sqrt_discrim;
+
         for half_plane in half_planes {
             let dir = Vec2::new(half_plane.normal.y, -half_plane.normal.x);
+
             let num = (half_plane.point - self.point).perp_dot(dir);
             let den = self_dir.perp_dot(dir);
 

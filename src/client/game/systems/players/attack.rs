@@ -5,14 +5,14 @@ use kiddo::distance::squared_euclidean;
 
 use crate::{
     client::game::{
-        components::{Enemy, Health, Player, Position, Velocity, Weapons},
+        components::{Agent, Enemy, Health, Player, Position, Weapons},
         resources::{SpacePartitioner, Ticks},
     },
     TICK_STEP,
 };
 
 pub fn players_attack(
-    mut player_query: Query<(&Position, &Velocity, &mut Weapons), With<Player>>,
+    mut player_query: Query<(&Position, &Agent, &mut Weapons), With<Player>>,
     mut enemy_query: Query<(&Position, &mut Health), With<Enemy>>,
     space_partitioner: Res<SpacePartitioner>,
     ticks: Res<Ticks>,
@@ -21,8 +21,8 @@ pub fn players_attack(
         return;
     }
 
-    for (player_position, player_velocity, mut player_weapons) in player_query.iter_mut() {
-        if player_velocity.val != Vec2::ZERO {
+    for (player_position, player_agent, mut player_weapons) in player_query.iter_mut() {
+        if player_agent.preferred_velocity != Vec2::ZERO {
             continue;
         }
         let tick_duration = Duration::from_secs_f32(TICK_STEP);

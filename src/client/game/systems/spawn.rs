@@ -5,7 +5,7 @@ use rand::Rng;
 
 use crate::{
     client::game::{
-        components::{Agent, Enemy, Health, Position, Size, Velocity},
+        components::{Agent, Enemy, Health, Position, Size, Stats, Velocity},
         resources::{Random, Spawner, Ticks},
     },
     TICK_STEP,
@@ -37,6 +37,7 @@ pub fn spawn(
             .insert(Position::new(position))
             .insert(Velocity::new())
             .insert(Size::new(0.25))
+            .insert(Stats::new(3.0))
             .insert(Agent::new())
             .insert(Health::new(10))
             .insert(Enemy);

@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::client::{
     game::{
-        components::{Agent, Player, Position, Size, Velocity, Weapons},
+        components::{Agent, Player, Position, Size, Stats, Velocity, Weapons},
         resources::{GameState, PlayerEntities, Spawner},
     },
     lobby::resources::{LobbyState, PlayersInfo},
@@ -29,6 +29,7 @@ pub fn initialization(
             .insert(Position::from_xy(0.0, 0.0))
             .insert(Size::new(0.25))
             .insert(Velocity::new())
+            .insert(Stats::new(5.0))
             .insert(Agent::new())
             .insert(Weapons::from_hertz(5, 250.0, 3.0))
             .insert(Player::new(id))
