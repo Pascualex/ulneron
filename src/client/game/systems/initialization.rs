@@ -31,7 +31,7 @@ pub fn initialization(
             .insert(Size::new(0.25))
             .insert(Stats::new(5.0))
             .insert(Agent::new())
-            .insert(Weapons::from_hertz(5, 250.0, 3.0))
+            .insert(Weapons::from_hertz(10, 100.0, 3.0))
             .insert(Player::new(id))
             .id();
         player_entities.vec.push(entity);
