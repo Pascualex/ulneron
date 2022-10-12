@@ -1,131 +1,204 @@
 use bevy::prelude::*;
 
-pub type OrcaTransform = (Vec2, f32, Vec2);
+pub struct OrcaAgent {
+    pub position: Vec2,
+    pub velocity: Vec2,
+    pub radius: f32,
+}
+
+impl OrcaAgent {
+    pub fn new(position: Vec2, velocity: Vec2, size: f32) -> Self {
+        Self {
+            position,
+            velocity,
+            radius: size,
+        }
+    }
+}
 
 pub fn orca(
-    trans_a: OrcaTransform,
-    vel_pref: Vec2,
-    speed_max: f32,
-    trans_neighbors: Vec<OrcaTransform>,
+    agent: OrcaAgent,
+    neighbors: &[OrcaAgent],
+    opt_vel: Vec2,
+    radius: f32,
     tau: f32,
 ) -> Vec2 {
-    let mut half_planes = Vec::new();
-    for trans_b in trans_neighbors {
-        half_planes.push(half_plane(trans_a, trans_b, tau));
+    let mut lines = Vec::new();
+    for neighbor in neighbors {
+        lines.push(compute_orca_line(&agent, &neighbor, tau));
     }
-    match closest_point_on_half_planes(&half_planes, speed_max, vel_pref) {
-        Some(some) => some,
-        None => Vec2::ZERO,
+    match linear_2(&lines, radius, opt_vel, false) {
+        Ok(result) => result,
+        Err((start_idx, start_point)) => Vec2::ZERO, // linear_3(&lines, radius, start_idx, start_point),
     }
 }
 
-fn half_plane(trans_a: OrcaTransform, trans_b: OrcaTransform, tau: f32) -> HalfPlane {
-    let (pos_a, radius_a, vel_a) = trans_a;
-    let (pos_b, radius_b, vel_b) = trans_b;
+fn compute_orca_line(agent: &OrcaAgent, other: &OrcaAgent, tau: f32) -> Line {
+    let rel_pos = other.position - agent.position;
+    let rel_vel = agent.velocity - other.velocity;
+    let dist_sq = rel_pos.length_squared();
+    let combined_radius = agent.radius + other.radius;
+    let combined_radius_sq = combined_radius * combined_radius;
 
-    let vel_diff = vel_a - vel_b;
+    let w = rel_vel - rel_pos / tau;
+    let w_length_sq = w.length_squared();
+    let dot = Vec2::dot(w, rel_pos);
 
-    let vo_main_pos = pos_b - pos_a;
-    let vo_main_radius = radius_a + radius_b;
-    let vo_trunc_pos = vo_main_pos / tau;
-    let vo_trunc_radius = vo_main_radius / tau;
-
-    // TODO: consider past vo_trunc_pos
-    let n = (vel_diff - vo_trunc_pos).normalize();
-    let closest_ca = vo_trunc_pos + n * vo_trunc_radius;
-    let u = closest_ca - vel_diff;
-
-    HalfPlane::new(vel_a + u / 2.0, n)
-}
-
-fn closest_point_on_half_planes(
-    half_planes: &[HalfPlane],
-    speed_max: f32,
-    optimal_point: Vec2,
-) -> Option<Vec2> {
-    let mut new_point = optimal_point.clamp_length_max(speed_max);
-    for (i, half_plane) in half_planes.iter().enumerate() {
-        if half_plane.contains(new_point) {
-            continue;
-        }
-        let (left, right) = match half_plane.intersect(speed_max, &half_planes[..i]) {
-            Some(some) => some,
-            None => return None,
+    let (u, dir) = if dist_sq < combined_radius_sq
+        || dot < 0.0 && dot * dot > combined_radius_sq * w_length_sq
+    {
+        // project on cut-off circle
+        let w_length = w_length_sq.sqrt();
+        let unit_w = w / w_length;
+        let u = (combined_radius / tau - w_length) * unit_w;
+        let dir = Vec2::new(unit_w.y, -unit_w.x);
+        (u, dir)
+    } else {
+        // project on legs
+        let leg = (dist_sq - combined_radius_sq).sqrt();
+        let dir = if Vec2::perp_dot(rel_pos, w) > 0.0 {
+            // project on left leg
+            let dir_x = rel_pos.x * leg - rel_pos.y * combined_radius;
+            let dir_y = rel_pos.x * combined_radius + rel_pos.y * leg;
+            Vec2::new(dir_x, dir_y) / dist_sq
+        } else {
+            // project on left leg
+            let dir_x = rel_pos.x * leg - rel_pos.y * combined_radius;
+            let dir_y = rel_pos.x * combined_radius + rel_pos.y * leg;
+            Vec2::new(dir_x, dir_y) / dist_sq
         };
-        let l0 = half_plane.point;
-        let dir = Vec2::new(half_plane.normal.y, -half_plane.normal.x);
-        let l1 = l0 + dir;
-        new_point = closest_point_on_line(l0, l1, left, right, optimal_point)
-    }
-    Some(new_point)
+        let u = Vec2::dot(rel_vel, dir) * dir - rel_vel;
+        (u, dir)
+    };
+
+    Line::new(agent.velocity + 0.5 * u, dir)
 }
 
-fn closest_point_on_line(l0: Vec2, l1: Vec2, left: f32, right: f32, optimal_point: Vec2) -> Vec2 {
-    let c = optimal_point - l0;
-    let mut v = l1 - l0;
-    let distance = v.length();
-    if distance == 0.0 {
-        return l0;
-    }
-    v /= distance;
-    let d = (l0 - l1).length();
-    let t = c.dot(v) / d;
-    l0 + (l1 - l0) * t.clamp(left, right)
-}
+fn linear_1(
+    line: &Line,
+    prev_lines: &[Line],
+    radius: f32,
+    opt_vel: Vec2,
+    opt_dir: bool,
+) -> Option<Vec2> {
+    let dot = Vec2::dot(line.point, line.direction);
+    let discriminant = dot * dot + radius * radius - line.point.length_squared();
 
-#[derive(Debug)]
-struct HalfPlane {
-    point: Vec2,
-    normal: Vec2,
-}
-
-impl HalfPlane {
-    pub fn new(point: Vec2, normal: Vec2) -> Self {
-        Self { point, normal }
+    if discriminant < 0.0 {
+        return None;
     }
 
-    pub fn contains(&self, point: Vec2) -> bool {
-        (point - self.point).dot(self.normal) > 0.0
-    }
+    let sqrt_discriminant = discriminant.sqrt();
+    let mut left = -dot - sqrt_discriminant;
+    let mut right = -dot + sqrt_discriminant;
 
-    pub fn intersect(&self, speed_max: f32, half_planes: &[HalfPlane]) -> Option<(f32, f32)> {
-        let self_dir = Vec2::new(self.normal.y, -self.normal.x);
-        let self_dot = self.point.dot(self_dir);
-        let discrim = self_dot * self_dot + speed_max * speed_max - self.point.length_squared();
+    for prev_line in prev_lines.iter() {
+        let numerator = Vec2::perp_dot(prev_line.direction, line.point - prev_line.point);
+        let denominator = Vec2::perp_dot(line.direction, prev_line.direction);
 
-        if discrim < 0.0 {
-            return None;
-        }
-
-        let sqrt_discrim = discrim.sqrt();
-        let mut left = -self_dot - sqrt_discrim;
-        let mut right = -self_dot + sqrt_discrim;
-
-        for half_plane in half_planes {
-            let dir = Vec2::new(half_plane.normal.y, -half_plane.normal.x);
-
-            let num = (half_plane.point - self.point).perp_dot(dir);
-            let den = self_dir.perp_dot(dir);
-
-            if den < f32::EPSILON {
-                if num < f32::EPSILON {
-                    return None;
-                }
-                continue;
-            }
-
-            let t = num / den;
-            if den > 0.0 {
-                right = right.min(t);
-            } else {
-                left = left.max(t);
-            }
-
-            if left > right {
+        if denominator.abs() <= f32::EPSILON {
+            if numerator < 0.0 {
                 return None;
             }
+            continue;
         }
 
-        Some((left, right))
+        let t = numerator / denominator;
+
+        if denominator >= 0.0 {
+            right = f32::min(t, right);
+        } else {
+            left = f32::max(t, left);
+        }
+
+        if right < left {
+            return None;
+        }
+    }
+
+    let point = if opt_dir {
+        if Vec2::dot(opt_vel, line.direction) <= 0.0 {
+            line.point + left * line.direction
+        } else {
+            line.point + right * line.direction
+        }
+    } else {
+        let t = Vec2::dot(line.direction, opt_vel - line.point);
+        if t < left {
+            line.point + left * line.direction
+        } else if t > right {
+            line.point + right * line.direction
+        } else {
+            line.point + t * line.direction
+        }
+    };
+
+    Some(point)
+}
+
+fn linear_2(
+    lines: &[Line],
+    radius: f32,
+    opt_vel: Vec2,
+    opt_dir: bool,
+) -> Result<Vec2, (usize, Vec2)> {
+    let mut result = match opt_dir {
+        true => opt_vel * radius,
+        false => opt_vel.clamp_length_max(radius),
+    };
+    for (i, line) in lines.iter().enumerate() {
+        if Vec2::perp_dot(line.direction, line.point - result) <= 0.0 {
+            continue;
+        }
+        result = match linear_1(line, &lines[..i], radius, opt_vel, opt_dir) {
+            Some(new_result) => new_result,
+            None => return Err((i, result)),
+        };
+    }
+    Ok(result)
+}
+
+fn linear_3(lines: &[Line], radius: f32, start_idx: usize, start_point: Vec2) -> Vec2 {
+    let mut result = start_point;
+    let mut distance = 0.0;
+    for (i, line) in lines[start_idx..].iter().enumerate() {
+        if Vec2::perp_dot(line.direction, line.point - result) < distance {
+            continue;
+        }
+        let mut new_lines = Vec::new();
+        for prev_line in &lines[..i] {
+            let determinant = Vec2::perp_dot(line.direction, prev_line.direction);
+            let point = match determinant.abs() <= f32::EPSILON {
+                true => match Vec2::dot(line.direction, prev_line.direction) <= 0.0 {
+                    true => 0.5 * line.point + prev_line.point,
+                    false => continue,
+                },
+                false => {
+                    line.point
+                        + Vec2::perp_dot(prev_line.direction, line.point - prev_line.point)
+                            / determinant
+                            * line.direction
+                }
+            };
+            let direction = (prev_line.direction - line.direction).normalize();
+            new_lines.push(Line::new(point, direction));
+        }
+        let opt_vel = line.direction.perp();
+        if let Ok(new_result) = linear_2(&new_lines, radius, opt_vel, true) {
+            result = new_result;
+        }
+        distance = Vec2::perp_dot(line.direction, line.point - result);
+    }
+    result
+}
+
+struct Line {
+    pub point: Vec2,
+    pub direction: Vec2,
+}
+
+impl Line {
+    pub fn new(point: Vec2, direction: Vec2) -> Self {
+        Self { point, direction }
     }
 }

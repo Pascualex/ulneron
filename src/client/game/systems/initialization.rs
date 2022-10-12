@@ -27,8 +27,8 @@ pub fn initialization(
         let entity = commands
             .spawn()
             .insert(Position::from_xy(0.0, 0.0))
-            .insert(Size::new(0.25))
             .insert(Velocity::new())
+            .insert(Size::new(0.25))
             .insert(Stats::new(5.0))
             .insert(Agent::new())
             .insert(Weapons::from_hertz(5, 250.0, 3.0))
