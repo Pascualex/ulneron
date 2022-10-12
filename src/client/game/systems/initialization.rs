@@ -29,9 +29,9 @@ pub fn initialization(
             .insert(Position::from_xy(0.0, 0.0))
             .insert(Velocity::new())
             .insert(Size::new(0.25))
-            .insert(Stats::new(5.0))
+            .insert(Stats::new(3.0))
             .insert(Agent::new())
-            .insert(Weapons::from_hertz(10, 100.0, 3.0))
+            .insert(Weapons::from_hertz(10, 100.0, 1.5))
             .insert(Player::new(id))
             .id();
         player_entities.vec.push(entity);

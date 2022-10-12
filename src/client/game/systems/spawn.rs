@@ -31,13 +31,13 @@ pub fn spawn(
             (false, false) => -Vec2::X,
         };
         let offset = Vec2::new(random.gen_range(-1.0..=1.0), random.gen_range(-1.0..=1.0));
-        let position = direction * 30.0 + offset * 10.0;
+        let position = direction * 15.0 + offset * 5.0;
         commands
             .spawn()
             .insert(Position::new(position))
             .insert(Velocity::new())
             .insert(Size::new(0.25))
-            .insert(Stats::new(3.0))
+            .insert(Stats::new(0.5))
             .insert(Agent::new())
             .insert(Health::new(10))
             .insert(Enemy);
