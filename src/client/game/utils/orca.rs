@@ -49,7 +49,7 @@ fn compute_orca_line(agent: &OrcaAgent, other: &OrcaAgent, tau: f64) -> Line {
     let dot = DVec2::dot(w, rel_pos);
 
     let (u, dir) = if dist_sq < combined_radius_sq
-        || dot < 0.0 && dot * dot > combined_radius_sq * w_length_sq
+        || (dot < 0.0 && dot * dot > combined_radius_sq * w_length_sq)
     {
         // project on cut-off circle
         let w_length = w_length_sq.sqrt();
@@ -67,9 +67,9 @@ fn compute_orca_line(agent: &OrcaAgent, other: &OrcaAgent, tau: f64) -> Line {
             DVec2::new(dir_x, dir_y) / dist_sq
         } else {
             // project on right leg
-            let dir_x = rel_pos.x * leg - rel_pos.y * combined_radius;
-            let dir_y = rel_pos.x * combined_radius + rel_pos.y * leg;
-            DVec2::new(dir_x, dir_y) / dist_sq
+            let dir_x = rel_pos.x * leg + rel_pos.y * combined_radius;
+            let dir_y = -rel_pos.x * combined_radius + rel_pos.y * leg;
+            -DVec2::new(dir_x, dir_y) / dist_sq
         };
         let u = DVec2::dot(rel_vel, dir) * dir - rel_vel;
         (u, dir)
@@ -121,7 +121,7 @@ fn linear_1(
     }
 
     let point = if opt_dir {
-        if DVec2::dot(opt_vel, line.direction) <= 0.0 {
+        if DVec2::dot(opt_vel, line.direction) < 0.0 {
             line.point + left * line.direction
         } else {
             line.point + right * line.direction
