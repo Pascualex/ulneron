@@ -11,7 +11,7 @@ impl Plugin for ClientGamePlugin {
             .init_resource::<SpacePartitioner>()
             .init_resource::<Ticks>()
             .insert_resource(Random::new(0))
-            .insert_resource(Spawner::from_hertz(10.0))
+            .insert_resource(Spawner::from_hertz(100.0))
             .add_system_set_to_stage(
                 CoreStage::PreUpdate,
                 SystemSet::new()

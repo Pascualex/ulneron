@@ -34,7 +34,7 @@ pub fn agent(
             OrcaAgent::new(position.val, velocity.val, size.radius),
             &neighbors,
             agent.preferred_velocity,
-            stats.speed,
+            stats.speed * 2.0,
             TICK_STEP,
         );
         new_velocities.insert(entity, new_velocity);
