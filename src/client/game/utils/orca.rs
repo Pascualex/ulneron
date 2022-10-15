@@ -1,5 +1,6 @@
 use bevy::math::{DVec2, Vec2};
 
+#[derive(Debug)]
 pub struct OrcaAgent {
     pub position: DVec2,
     pub velocity: DVec2,
@@ -16,6 +17,8 @@ impl OrcaAgent {
     }
 }
 
+const ORCA_EPSILON: f64 = 0.00001;
+
 pub fn orca(
     agent: OrcaAgent,
     neighbors: &[OrcaAgent],
@@ -27,8 +30,8 @@ pub fn orca(
     let radius = radius as f64;
     let tau = tau as f64;
     let mut lines = Vec::new();
-    for neighbor in neighbors {
-        lines.push(compute_orca_line(&agent, &neighbor, tau));
+    for neighbor in neighbors.iter() {
+        lines.push(compute_orca_line(&agent, neighbor, tau));
     }
     let new_vel = match linear_2(&lines, radius, opt_vel, false) {
         Ok(result) => result,
@@ -100,7 +103,7 @@ fn linear_1(
         let numerator = DVec2::perp_dot(prev_line.direction, line.point - prev_line.point);
         let denominator = DVec2::perp_dot(line.direction, prev_line.direction);
 
-        if denominator.abs() <= f64::EPSILON {
+        if denominator.abs() <= ORCA_EPSILON {
             if numerator < 0.0 {
                 return None;
             }
@@ -115,7 +118,7 @@ fn linear_1(
             left = f64::max(t, left);
         }
 
-        if right < left {
+        if left > right {
             return None;
         }
     }
@@ -170,9 +173,9 @@ fn linear_3(lines: &[Line], radius: f64, start_idx: usize, start_point: DVec2) -
             continue;
         }
         let mut new_lines = Vec::new();
-        for prev_line in &lines[..i] {
+        for prev_line in &lines[..start_idx + i] {
             let determinant = DVec2::perp_dot(line.direction, prev_line.direction);
-            let point = match determinant.abs() <= f64::EPSILON {
+            let point = match determinant.abs() <= ORCA_EPSILON {
                 true => match DVec2::dot(line.direction, prev_line.direction) <= 0.0 {
                     true => 0.5 * (line.point + prev_line.point),
                     false => continue,
@@ -196,7 +199,6 @@ fn linear_3(lines: &[Line], radius: f64, start_idx: usize, start_point: DVec2) -
     result
 }
 
-#[derive(Debug)]
 struct Line {
     pub point: DVec2,
     pub direction: DVec2,
