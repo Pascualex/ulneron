@@ -23,16 +23,17 @@ pub fn initialization(
         return;
     }
     *game_state = GameState::Running;
-    for id in 0..players_info.uuids.len() {
+    let offset = 0.3 * players_info.uuids.len().saturating_sub(1) as f32;
+    for i in 0..players_info.uuids.len() {
         let entity = commands
             .spawn()
-            .insert(Position::from_xy(0.0, 0.0))
+            .insert(Position::from_xy(-offset + 0.6 * i as f32, 0.0))
             .insert(Velocity::new())
             .insert(Size::new(0.25))
             .insert(Stats::new(2.0))
             .insert(Agent::new())
             .insert(Weapons::from_hertz(10, 150.0, 3.0))
-            .insert(Player::new(id))
+            .insert(Player::new(i))
             .id();
         player_entities.vec.push(entity);
     }
