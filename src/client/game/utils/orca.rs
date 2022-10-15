@@ -56,7 +56,10 @@ fn compute_orca_line(agent: &OrcaAgent, other: &OrcaAgent, tau: f64) -> Line {
     {
         // project on cut-off circle
         let w_length = w_length_sq.sqrt();
-        let unit_w = w / w_length;
+        let unit_w = match w_length >= ORCA_EPSILON {
+            true => w / w_length,
+            false => DVec2::ZERO,
+        };
         let u = (combined_radius / tau - w_length) * unit_w;
         let dir = DVec2::new(unit_w.y, -unit_w.x);
         (u, dir)
