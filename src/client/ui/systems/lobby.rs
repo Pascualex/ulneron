@@ -3,13 +3,14 @@ use bevy::prelude::*;
 use crate::client::{
     lobby::resources::{LobbyState, PlayersInfo},
     networking::resources::Connection,
+    ui::components::LobbyText,
 };
 
 pub fn lobby(
     state: Res<LobbyState>,
     connection: Option<Res<Connection>>,
     players_info: Res<PlayersInfo>,
-    mut query: Query<&mut Text>,
+    mut query: Query<&mut Text, With<LobbyText>>,
 ) {
     let mut text = query.single_mut();
     text.sections[0].value = match *state {
