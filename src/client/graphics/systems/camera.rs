@@ -12,5 +12,5 @@ pub fn camera(
     };
     let mut camera_transform = camera_query.single_mut();
     let position = player_transform.translation;
-    camera_transform.translation = Vec3::new(position.x - 5.0, 15.0, position.z);
+    camera_transform.translation = Vec3::new(position.x, 15.0, position.z + 5.0);
 }

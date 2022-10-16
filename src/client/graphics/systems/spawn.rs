@@ -39,7 +39,7 @@ pub fn spawn(
                 reflectance: 0.3,
                 ..default()
             }),
-            transform: Transform::from_xyz(position.val.y, 0.5, position.val.x),
+            transform: Transform::from_xyz(position.val.x, 0.5, -position.val.y),
             ..default()
         });
         if let Some(player) = player {

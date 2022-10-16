@@ -14,6 +14,6 @@ pub fn movement(
             Some(velocity) => position.val + velocity.val * tick_delta.delta.as_secs_f32(),
             None => position.val,
         };
-        transform.translation = Vec3::new(position.y, 0.5, position.x);
+        transform.translation = Vec3::new(position.x, 0.5, -position.y);
     }
 }
