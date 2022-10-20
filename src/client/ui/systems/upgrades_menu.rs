@@ -20,7 +20,7 @@ pub fn upgrades_menu(
         GameState::Running => match player_query.get_single() {
             Ok((stats, weapons)) => {
                 format!(
-                    "Stats:\n- Speed: {:.2}\nWeapon:\n- Fire rate: {:.2}\n- Range: {:.2}",
+                    "Stats\n  Speed: {:.2}\nWeapon\n  Fire rate: {:.2}\n  Range: {:.2}",
                     stats.speed,
                     1.0 / weapons.timer.duration().as_secs_f32(),
                     weapons.range,

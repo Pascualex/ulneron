@@ -8,9 +8,9 @@ pub fn state_menu(mut commands: EntityCommands, asset_server: &AssetServer) {
             TextBundle::from_section(
                 "State menu",
                 TextStyle {
-                    color: Color::WHITE,
                     font: asset_server.load("fonts/roboto.ttf"),
                     font_size: 24.0,
+                    color: Color::WHITE,
                 },
             )
             .with_style(Style {
