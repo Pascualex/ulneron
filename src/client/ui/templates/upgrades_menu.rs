@@ -6,7 +6,7 @@ pub fn upgrades_menu(mut commands: EntityCommands, asset_server: &AssetServer) {
     commands
         .insert_bundle(
             TextBundle::from_section(
-                "Upgrades",
+                "",
                 TextStyle {
                     font: asset_server.load("fonts/roboto.ttf"),
                     font_size: 24.0,
