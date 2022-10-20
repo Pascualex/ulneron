@@ -6,7 +6,7 @@ use crate::client::{
     ui::components::LobbyText,
 };
 
-pub fn lobby(
+pub fn lobby_menu(
     state: Res<LobbyState>,
     connection: Option<Res<Connection>>,
     players_info: Res<PlayersInfo>,

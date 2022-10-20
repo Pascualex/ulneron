@@ -1,5 +1,5 @@
-pub use lobby::lobby;
+pub use lobby_menu::lobby_menu;
 pub use upgrades::upgrades;
 
-mod lobby;
+mod lobby_menu;
 mod upgrades;
