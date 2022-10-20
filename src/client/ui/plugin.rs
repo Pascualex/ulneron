@@ -10,7 +10,7 @@ impl Plugin for ClientUiPlugin {
             CoreStage::Update,
             SystemSet::new()
                 .with_system(lobby_menu)
-                .with_system(upgrades),
+                .with_system(upgrades_menu),
         );
     }
 }

@@ -7,8 +7,8 @@ pub fn camera(
     mut camera_query: Query<&mut Transform, With<Camera>>,
 ) {
     let player_transform = match player_query.get_single() {
-        Ok(player_transform) => player_transform,
-        _ => return,
+        Ok(item) => item,
+        Err(_) => return,
     };
     let mut camera_transform = camera_query.single_mut();
     let position = player_transform.translation;

@@ -7,10 +7,10 @@ use crate::client::{
 };
 
 pub fn lobby_menu(
+    mut query: Query<&mut Text, With<LobbyText>>,
     state: Res<LobbyState>,
     connection: Option<Res<Connection>>,
     players_info: Res<PlayersInfo>,
-    mut query: Query<&mut Text, With<LobbyText>>,
 ) {
     let mut text = query.single_mut();
     text.sections[0].value = match *state {
