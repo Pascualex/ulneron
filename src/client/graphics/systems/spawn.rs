@@ -26,7 +26,7 @@ pub fn spawn(
             },
             None => Color::BLACK,
         };
-        commands.entity(entity).insert_bundle(MaterialMeshBundle {
+        commands.entity(entity).insert(MaterialMeshBundle {
             mesh: meshes.add(Mesh::from(shape::Capsule {
                 radius: 0.25,
                 depth: 0.5,

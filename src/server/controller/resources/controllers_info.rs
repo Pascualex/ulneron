@@ -1,8 +1,9 @@
+use bevy::prelude::*;
 use uuid::Uuid;
 
 use crate::client::controller::data::Action;
 
-#[derive(Default)]
+#[derive(Default, Resource)]
 pub struct ControllersInfo {
     pub vec: Vec<ControllerInfo>,
 }

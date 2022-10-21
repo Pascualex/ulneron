@@ -1,6 +1,8 @@
 use std::time::Duration;
 
-#[derive(Default)]
+use bevy::prelude::*;
+
+#[derive(Default, Resource)]
 pub struct TickDelta {
     pub delta: Duration,
 }

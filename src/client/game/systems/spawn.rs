@@ -32,14 +32,14 @@ pub fn spawn(
         };
         let offset = Vec2::new(random.gen_range(-1.0..=1.0), random.gen_range(-1.0..=1.0));
         let position = direction * 20.0 + offset * 5.0;
-        commands
-            .spawn()
-            .insert(Position::new(position))
-            .insert(Velocity::new())
-            .insert(Size::new(0.25))
-            .insert(Stats::new(1.0))
-            .insert(Agent::new())
-            .insert(Health::new(10))
-            .insert(Enemy);
+        commands.spawn((
+            Position::new(position),
+            Velocity::new(),
+            Size::new(0.25),
+            Stats::new(1.0),
+            Agent::new(),
+            Health::new(10),
+            Enemy,
+        ));
     }
 }

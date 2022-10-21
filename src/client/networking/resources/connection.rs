@@ -1,5 +1,8 @@
 use std::net::{TcpStream, ToSocketAddrs};
 
+use bevy::prelude::*;
+
+#[derive(Resource)]
 pub struct Connection {
     pub stream: TcpStream,
 }

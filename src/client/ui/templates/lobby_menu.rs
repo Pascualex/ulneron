@@ -4,7 +4,7 @@ use crate::client::ui::components::LobbyText;
 
 pub fn lobby_menu(mut commands: EntityCommands, asset_server: &AssetServer) {
     commands
-        .insert_bundle(
+        .insert(
             TextBundle::from_section(
                 "",
                 TextStyle {

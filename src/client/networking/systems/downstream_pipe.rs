@@ -13,11 +13,11 @@ use crate::{
 
 pub fn downstream_pipe(
     mut connection: ResMut<Connection>,
-    mut bytes: ResMut<[u8; BUFFER_SIZE]>,
+    mut buffer: Local<Buffer>,
     mut lobby_writer: EventWriter<LobbyDownstreamEvent>,
     mut game_writer: EventWriter<GameDownstreamEvent>,
 ) {
-    let bytes = bytes.as_mut();
+    let bytes = &mut buffer.bytes;
     while let Ok(size) = connection.stream.read(bytes) {
         if size == 0 {
             break;
@@ -28,6 +28,18 @@ pub fn downstream_pipe(
         }
         for event in msg.game_events {
             game_writer.send(event);
+        }
+    }
+}
+
+pub struct Buffer {
+    pub bytes: [u8; BUFFER_SIZE],
+}
+
+impl Default for Buffer {
+    fn default() -> Self {
+        Self {
+            bytes: [0; BUFFER_SIZE],
         }
     }
 }

@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use kiddo::KdTree;
 
+#[derive(Resource)]
 pub struct SpacePartitioner {
     pub players: KdTree<f32, Entity, 2>,
     pub enemies: KdTree<f32, Entity, 2>,

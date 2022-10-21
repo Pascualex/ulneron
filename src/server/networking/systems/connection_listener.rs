@@ -1,10 +1,10 @@
-use std::net::{TcpListener, TcpStream};
-
 use bevy::prelude::*;
 
-pub fn connection_listener(listener: Res<TcpListener>, mut streams: ResMut<Vec<TcpStream>>) {
-    while let Ok((stream, _)) = listener.accept() {
+use crate::server::networking::resources::{Clients, Endpoint};
+
+pub fn connection_listener(endpoint: Res<Endpoint>, mut clients: ResMut<Clients>) {
+    while let Ok((stream, _)) = endpoint.listener.accept() {
         stream.set_nonblocking(true).unwrap();
-        streams.push(stream);
+        clients.streams.push(stream);
     }
 }

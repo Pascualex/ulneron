@@ -1,6 +1,8 @@
+use bevy::prelude::*;
 use rand::{Error, RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 
+#[derive(Resource)]
 pub struct Random {
     rng: ChaCha8Rng,
 }

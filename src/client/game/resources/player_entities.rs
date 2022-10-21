@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-#[derive(Default)]
+#[derive(Default, Resource)]
 pub struct PlayerEntities {
     pub vec: Vec<Entity>,
 }
