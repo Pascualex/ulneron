@@ -10,7 +10,7 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy.git", branch = "main" }
+bevy = { path = "../bevy" }
 bincode = "1.3.3"
 kiddo = "0.2.4"
 rand = "0.8.5"
