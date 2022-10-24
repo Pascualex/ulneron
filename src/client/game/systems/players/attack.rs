@@ -5,15 +5,15 @@ use kiddo::distance::squared_euclidean;
 
 use crate::{
     client::game::{
-        components::{Agent, Enemy, Health, Player, Position, Weapons},
+        components::{Agent, Enemy, Health, Player, Position, Resources, Weapons},
         resources::{SpacePartitioner, Ticks},
     },
     TICK_STEP,
 };
 
 pub fn players_attack(
-    mut player_query: Query<(&Position, &Agent, &mut Weapons), With<Player>>,
-    mut enemy_query: Query<(&Position, &mut Health), With<Enemy>>,
+    mut player_query: Query<(&Position, &Agent, &mut Weapons, &mut Resources), With<Player>>,
+    mut enemy_query: Query<&mut Health, With<Enemy>>,
     space_partitioner: Res<SpacePartitioner>,
     ticks: Res<Ticks>,
 ) {
@@ -21,26 +21,34 @@ pub fn players_attack(
         return;
     }
 
-    for (player_position, player_agent, mut player_weapons) in player_query.iter_mut() {
-        if player_agent.preferred_velocity != Vec2::ZERO {
+    for (position, agent, mut weapons, mut resources) in player_query.iter_mut() {
+        if agent.preferred_velocity != Vec2::ZERO {
             continue;
         }
         let tick_duration = Duration::from_secs_f32(TICK_STEP);
-        player_weapons.timer.tick(tick_duration);
-        let mut shot_count = player_weapons.timer.times_finished_this_tick();
-        let squared_range = player_weapons.range.powi(2);
+        weapons.timer.tick(tick_duration);
+        let mut shot_count = weapons.timer.times_finished_this_tick();
+        let squared_range = weapons.range.powi(2);
         for (squared_distance, enemy_entity) in space_partitioner
             .enemies
-            .iter_nearest(player_position.val.as_ref(), &squared_euclidean)
+            .iter_nearest(position.val.as_ref(), &squared_euclidean)
             .unwrap()
         {
             if squared_distance > squared_range {
                 break;
             }
-            let (_, mut enemy_health) = enemy_query.get_mut(*enemy_entity).unwrap();
-            while !enemy_health.dead() && shot_count > 0 {
-                enemy_health.damage(player_weapons.damage);
+            let mut enemy_health = enemy_query.get_mut(*enemy_entity).unwrap();
+            if enemy_health.dead() {
+                continue;
+            }
+            while shot_count > 0 {
+                enemy_health.damage(weapons.damage);
                 shot_count -= 1;
+                if enemy_health.dead() {
+                    resources.nerite += 7;
+                    resources.kills += 1;
+                    break;
+                }
             }
             if shot_count == 0 {
                 break;

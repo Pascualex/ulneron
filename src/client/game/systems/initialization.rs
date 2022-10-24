@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::client::{
     game::{
-        components::{Agent, Player, Position, Size, Stats, Velocity, Weapons},
+        components::{Agent, Player, Position, Resources, Size, Stats, Velocity, Weapons},
         resources::{GameState, PlayerEntities, Spawner},
     },
     lobby::resources::{LobbyState, PlayersInfo},
@@ -25,18 +25,17 @@ pub fn initialization(
     *game_state = GameState::Running;
     let offset = 0.3 * players_info.uuids.len().saturating_sub(1) as f32;
     for i in 0..players_info.uuids.len() {
-        let entity = commands
-            .spawn((
-                Position::from_xy(-offset + 0.6 * i as f32, 0.0),
-                Velocity::new(),
-                Size::new(0.25),
-                Stats::new(2.0),
-                Agent::new(),
-                Weapons::from_hertz(10, 150.0, 3.0),
-                Player::new(i),
-            ))
-            .id();
-        player_entities.vec.push(entity);
+        let ec = commands.spawn((
+            Position::from_xy(-offset + 0.6 * i as f32, 0.0),
+            Velocity::new(),
+            Size::new(0.25),
+            Stats::new(2.0),
+            Agent::new(),
+            Weapons::from_hertz(10, 150.0, 3.0),
+            Resources::new(),
+            Player::new(i),
+        ));
+        player_entities.vec.push(ec.id());
     }
     spawner.multiplier = players_info.uuids.len() as u32;
 }

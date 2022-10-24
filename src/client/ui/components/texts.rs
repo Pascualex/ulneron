@@ -4,7 +4,7 @@ use bevy::prelude::*;
 pub struct LobbyText;
 
 #[derive(Component)]
-pub struct StateText;
+pub struct ResourcesText;
 
 #[derive(Component)]
 pub struct UpgradesText;

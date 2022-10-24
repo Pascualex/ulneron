@@ -1,6 +1,6 @@
 use bevy::{ecs::system::EntityCommands, prelude::*};
 
-use crate::client::ui::templates::{lobby_menu, state_menu, upgrades_menu};
+use crate::client::ui::templates::{lobby_menu, resources_menu, upgrades_menu};
 
 pub fn overlay(mut commands: EntityCommands, asset_server: &AssetServer) {
     let root = NodeBundle {
@@ -36,7 +36,7 @@ pub fn overlay(mut commands: EntityCommands, asset_server: &AssetServer) {
             lobby_menu(parent.spawn_empty(), asset_server);
         });
         parent.spawn(right_panel).with_children(|parent| {
-            state_menu(parent.spawn_empty(), asset_server);
+            resources_menu(parent.spawn_empty(), asset_server);
             upgrades_menu(parent.spawn_empty(), asset_server);
         });
     });
